@@ -51,7 +51,7 @@ Tablecloth supports Rescript 9. [Older versions of Tablecloth](https://www.npmjs
 When developing Tablecloth, you can test it against different versions of
 rescript, using the following commands:
 
-- `TC_RESCRIPT_VERSION=7.1.1 make deps-rescript`
+- `TC_RESCRIPT_VERSION=10.0.0 make deps`
 
 ## Contributions
 

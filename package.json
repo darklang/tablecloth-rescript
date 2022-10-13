@@ -22,6 +22,7 @@
     "clean": "rescript clean",
     "build": "rescript build -with-deps",
     "test": "jest",
+    "format": "echo todo",
     "build:watch": "rescript build -with-deps -w"
   },
   "jest": {
