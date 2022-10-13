@@ -4,7 +4,7 @@ jobs:
     parameters:
       rescript-version: { type: string }
     docker:
-      - image: cimg/node:16.6.0
+      - image: cimg/node:18.10.0
     environment:
       CI: true
       NODE_ENV: test
