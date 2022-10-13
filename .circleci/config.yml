@@ -1,6 +1,6 @@
 version: 2.1
 jobs:
-  rescript-build-and-test:
+  build-and-test:
     parameters:
       rescript-version: { type: string }
     docker:
@@ -18,194 +18,23 @@ jobs:
             - v1-rescript-dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}
             - v1-rescript-dependencies-{{ .Branch }}-
             - v1-rescript-dependencies-
-      - run: make deps-rescript
-      - run: make build-rescript
-      - run: make test-rescript
-      - run: make doc-rescript
-      - run: make integration-test-rescript
+      - run: npm install
+      - run: npm run build
+      - run: npm run test
+      - run: npm run integration-test
       - save_cache:
           key: v1-rescript-dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}
           paths:
             - ~/repo/node_modules
-
-  native-build-and-test:
-    parameters:
-      ocaml-version: { type: string }
-      base-version: { type: string }
-    docker:
-      - image: ocaml/opam:ubuntu-ocaml-<< parameters.ocaml-version >>
-    environment:
-      CI: true
-      TC_NATIVE_OCAML_SWITCH: << parameters.ocaml-version >>
-      TC_BASE_VERSION: << parameters.base-version >>
-    working_directory: ~/repo
-    steps:
-      - checkout:
-          path: ~/repo
-      - restore_cache:
-          keys:
-            - v3-native-dependencies-<< parameters.ocaml-version >>-<< parameters.base-version >>-{{ .Branch }}-{{ checksum "tablecloth-native.opam" }}
-            - v3-native-dependencies-<< parameters.ocaml-version >>-<< parameters.base-version >>-{{ .Branch }}-
-            - v3-native-dependencies-<< parameters.ocaml-version >>-<< parameters.base-version >>-
-      # m4 is a system dependency required by conf-m4 -> ocamlfind -> fmt -> alcotest
-      - run: sudo apt-get install -y m4
-      - run: make deps-native
-      - run: make build-native
-      - run: make test-native
-      - run: make doc-native
-      - run: make integration-test-native
-      - save_cache:
-          key: v3-native-dependencies-<< parameters.ocaml-version >>-<< parameters.base-version >>-{{ .Branch }}-{{ checksum "tablecloth-native.opam" }}
-          paths:
-            - ~/.opam
-
-  source-code-formatting:
-    docker:
-      - image: ocaml/opam:ubuntu-ocaml-4.10
-    environment:
-      CI: true
-    working_directory: ~/repo
-    steps:
-      - checkout:
-          path: ~/repo
-      - restore_cache:
-          keys:
-            - v0-source-dependencies-ocamlformat-0.19
-      # m4 is a system dependency required by conf-m4 -> ocamlfind -> fmt -> alcotest
-      - run: sudo apt-get install -y m4
-      - run: echo 'export PATH=/usr/lib/cargo/bin/fd:$PATH' >> ~/.bash_env
-      - run: make deps-format
-      - run: make check-format
-      - save_cache:
-          key: v0-source-dependencies-ocamlformat-0.19
-          paths:
-            - ~/.opam
-
-  documentation-generator-build:
-    docker:
-      - image: ocaml/opam:ubuntu-20.04-ocaml-4.12
-    environment:
-      CI: true
-    working_directory: ~/repo
-    steps:
-      - checkout:
-          path: ~/repo
-      - restore_cache:
-          keys:
-            - v3-docs-{{ .Branch }}-{{ checksum "tablecloth-native.opam" }}
-            - v3-docs-{{ .Branch }}-
-            - v3-docs-dependencies-
-      # m4 is a system dependency required lots of packages
-      # nodejs and npm is needed to generate rescript ocamldoc
-      - run: sudo apt-get update
-      - run: sudo apt-get install -y m4 nodejs npm
-      - run: mkdir ~/.npm-global
-      - run: npm config set prefix '~/.npm-global'
-      - run: npm install -g esy
-      - run: cd ocamldoc-json-generator && make init-node
-      - run: cd ocamldoc-json-generator && ~/.npm-global/bin/esy
-      - run: cd ocamldoc-json-generator && make rescript-interfaces
-      - run: cd ocamldoc-json-generator && make doc
-      # Check that model.json has been regenerated when there are changes in the interface files
-      - run: git diff --exit-code website/model.json
-      - save_cache:
-          key: v3-native-dependencies-{{ .Branch }}-{{ checksum "tablecloth-native.opam" }}
-          paths:
-            - ~/.opam
-
-  website-build:
-    docker:
-      - image: cimg/node:16.6.0
-    environment:
-      CI: true
-      NODE_ENV: production
-    working_directory: ~/repo/website
-    steps:
-      - checkout:
-          path: ~/repo
-      - restore_cache:
-          keys:
-            - v1-website-dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}
-            - v1-website-dependencies-{{ .Branch }}-
-            - v1-website-dependencies-
-      - run: npm install
-      - run: npm run build
-      - save_cache:
-          key: v1-website-dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}
-          paths:
-            - ~/repo/website/node_modules
-      - persist_to_workspace:
-          root: ~/repo/website
-          paths:
-            - public
-  website-deploy:
-    docker:
-      - image: cimg/node:16.6.0
-    environment:
-      CI: true
-      NODE_ENV: production
-    working_directory: ~/repo/website
-    steps:
-      - checkout:
-          path: ~/repo/website
-      - attach_workspace:
-          at: ~/repo/website/public
-      - run:
-          name: Download dark-cli
-          command: curl -O https://dark-cli.storage.googleapis.com/latest/dark-cli-linux
-      - run:
-          name: Make dark-cli Executable
-          command: chmod +x dark-cli-linux
-      - run:
-          name: Execute dark-cli to Deploy Static Assets
-          command: ./dark-cli-linux --canvas tablecloth --password "$DEPLOY_PWD" --user $DEPLOY_USR ~/repo/website/public/*
 
 workflows:
   version: 2
   build:
     jobs:
       # Contributions welcome for commented out versions, see README
-      - rescript-build-and-test:
+      - build-and-test:
           matrix:
             parameters:
               rescript-version:
                 # Pre version 9 not supported as the package was renamed to rescript in 9.1
                 - "9.1.4"
-
-      # --------------------
-      # OCaml version matrix
-      # --------------------
-      # We currently only support native OCaml > 4.08, as we use the Fun module
-      # which was only added in 4.08
-      # Base 0.9.4 requires ocaml < 4.07, which we don't support
-      # Base 0.10.0 requires ocaml < 4.07, which we don't support
-      # Base 0.11.1 requires ocaml < 4.07, which we don't support
-      # Base 0.12 requires ocaml < 4.10
-      - native-build-and-test:
-          matrix:
-            parameters:
-              base-version: ["v0.12.2"]
-              ocaml-version: ["4.08", "4.09"]
-      # Base 0.13.2 requires ocaml < 4.12
-      - native-build-and-test:
-          matrix:
-            parameters:
-              base-version: ["v0.13.2"]
-              ocaml-version: ["4.08", "4.09", "4.10", "4.11"]
-      # Base 0.14.1 requires ocaml >= 4.08
-      # Currently broken as due to Either definition
-      - native-build-and-test:
-          matrix:
-            parameters:
-              base-version: ["v0.14.1"]
-              ocaml-version: ["4.08", "4.09", "4.10", "4.11", "4.12"]
-      - source-code-formatting
-      # - documentation-generator-build
-      - website-build
-      - website-deploy:
-          requires:
-            - website-build
-          filters:
-            branches:
-              only: main
-

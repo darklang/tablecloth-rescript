@@ -7,7 +7,7 @@ The recommended way to use Tablecloth is with a top-level open at the beginning 
 
 This will ensure all the built-in modules are replaced.
 
-```reason
+```rescript
 open Tablecloth;
 
 String.toList("Tablecloth")
@@ -33,28 +33,4 @@ In `bsconfig.json` edit the `bsc-flags` array to look like the following:
   // ...
 ]
 ```
-
-### With OCaml + Esy
-
-In `package.json` / `esy.json` edit the `esy.flags` array to look like the following:
-
-```json
-"esy": {
-  "flags": [
-    "-open",
-    "Tablecloth"
-  ],
-}
-```
-
-### With OCaml + Dune
-
-https://dune.readthedocs.io/en/stable/concepts.html#ocaml-flags
-
-```
-(library
- (name example-library)
- (libraries tablecloth-native)
- (flags (:open Tablecloth)))
- ```
 
