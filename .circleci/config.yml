@@ -1,6 +1,7 @@
 version: 2.1
 jobs:
   build-and-test:
+    resource_class: medium
     parameters:
       rescript-version: { type: string }
     docker:
