@@ -15,15 +15,15 @@ jobs:
           path: ~/repo
       - restore_cache:
           keys:
-            - v1-rescript-dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}
-            - v1-rescript-dependencies-{{ .Branch }}-
-            - v1-rescript-dependencies-
+            - v2-rescript-dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}-{{ << parameters.rescript-version >> }}
+            - v2-rescript-dependencies-{{ .Branch }}-
+            - v2-rescript-dependencies-
       - run: npm install
       - run: npm run build
       - run: npm run test
       - run: npm run integration-test
       - save_cache:
-          key: v1-rescript-dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}
+          key: v2-rescript-dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}-{{ << parameters.rescript-version >> }}
           paths:
             - ~/repo/node_modules
 
@@ -38,3 +38,4 @@ workflows:
               rescript-version:
                 # Pre version 9 not supported as the package was renamed to rescript in 9.1
                 - "9.1.4"
+                - "10.0.1"
