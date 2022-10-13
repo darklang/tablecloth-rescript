@@ -16,7 +16,7 @@ jobs:
           path: ~/repo
       - restore_cache:
           keys:
-            - v2-rescript-dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}-{{ << parameters.rescript-version >> }}
+            - v2-rescript-dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}
             - v2-rescript-dependencies-{{ .Branch }}-
             - v2-rescript-dependencies-
       - run: npm install
@@ -24,7 +24,7 @@ jobs:
       - run: npm run test
       - run: npm run integration-test
       - save_cache:
-          key: v2-rescript-dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}-{{ << parameters.rescript-version >> }}
+          key: v2-rescript-dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}
           paths:
             - ~/repo/node_modules
 
