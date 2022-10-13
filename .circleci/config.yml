@@ -2,7 +2,7 @@ version: 2.1
 jobs:
   build-and-test:
     parameters:
-      version: { type: string }
+      rescript-version: { type: string }
     docker:
       - image: cimg/node:16.6.0
     environment:
