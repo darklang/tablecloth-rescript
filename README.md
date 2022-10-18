@@ -35,16 +35,16 @@ This will ensure that all the built-in modules are replaced.
 open Tablecloth
 
 let () =
-  String.toList "somestring"
-  |> List.map ~f:Char.toCode
-  |> List.map ~f:(fun x -> x+1)
-  |> List.filterMap ~f:Char.fromCode
-  |> String.fromList
+  String.toList("somestring")
+  ->List.map(Char.toCode)
+  ->List.map((x) => x+1))
+  ->List.filterMap(Char.fromCode)
+  ->String.fromList
 ```
 
 ## Supported versions
 
-Tablecloth supports Rescript 9. [Older versions of Tablecloth](https://www.npmjs.com/package/tablecloth-bucklescript) supported older versions of bs-platform.
+Tablecloth supports Rescript 9 and 10. [Older versions of Tablecloth](https://www.npmjs.com/package/tablecloth-bucklescript) supported older versions of bs-platform.
 
 ### Development
 
