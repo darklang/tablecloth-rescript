@@ -36,6 +36,11 @@ let mapWithIndex = (t, ~f) => Belt.Map.mapWithKey(t, f)
 
 let filter = (m, ~f) => Belt.Map.keep(m, (_, value) => f(value))
 
+let filterMap = (m, ~f) => {
+  let f' = ((key, value)) => f(~key, ~value)->Belt.Option.map(value' => (key, value'))
+  m->Belt.Map.toArray->Belt.Array.keepMap(f')->Belt.Map.fromArray(~id=Belt.Map.getId(m))
+}
+
 let partition = (m, ~f) => Belt.Map.partition(m, (key, value) => f(~key, ~value))
 
 let find = (m, ~f) => Belt.Map.findFirstBy(m, (key, value) => f(~key, ~value))
@@ -118,4 +123,3 @@ module String = {
 
   let fromList = l => fromArray(Array.of_list(l))
 }
-
