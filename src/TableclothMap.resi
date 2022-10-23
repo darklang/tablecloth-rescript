@@ -325,6 +325,12 @@ let mapWithIndex: (t<'key, 'value, 'id>, ~f: ('key, 'value) => 'b) => t<'key, 'b
 ")
 let filter: (t<'key, 'value, 'id>, ~f: 'value => bool) => t<'key, 'value, 'id>
 
+@ocaml.doc(" Mombine {!map} and {!filter} into a single pass.
+
+    The output list only contains elements for which [f] returns [Some].
+")
+let filterMap : (t<'key, 'value, 'id>, ~f:((~key:'key, ~value:'value) => option<'b>)) => t<'key, 'b, 'id>
+
 @ocaml.doc(" Divide a map into two, the first map will contain the key-value pairs that [f] returns [true] for, pairs that [f] returns [false] for will end up in the second.
 
     {2 Examples}
@@ -478,4 +484,3 @@ module String: {
   @ocaml.doc(" Create a map from a {!List} of key-value tuples. ")
   let fromList: list<(string, 'value)> => t<'value>
 }
-
