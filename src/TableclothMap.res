@@ -14,25 +14,25 @@ let fromList = (comparator, l) => fromArray(comparator, Array.of_list(l))
 
 let singleton = (comparator, ~key, ~value) => fromArray(comparator, [(key, value)])
 
-let isEmpty = Belt.Map.isEmpty
+let isEmpty = t => Belt.Map.isEmpty(t)
 
-let includes = Belt.Map.has
+let includes = (t, k) => Belt.Map.has(t, k)
 
-let length = Belt.Map.size
+let length = t => Belt.Map.size(t)
 
 let add = (m, ~key, ~value) => Belt.Map.set(m, key, value)
 
-let remove = Belt.Map.remove
+let remove = (t, k) => Belt.Map.remove(t, k)
 
-let get = Belt.Map.get
+let get = (t, k) => Belt.Map.get(t, k)
 
-let update = (m, ~key, ~f) => Belt.Map.update(m, key, f)
+let update = (m, ~key, ~f) => Belt.Map.updateU(m, key, f)
 
-let merge = (m1, m2, ~f) => Belt.Map.merge(m1, m2, f)
+let merge = (m1, m2, ~f) => Belt.Map.mergeU(m1, m2, f)
 
 let map = (m, ~f) => Belt.Map.map(m, value => f(value))
 
-let mapWithIndex = (t, ~f) => Belt.Map.mapWithKey(t, f)
+let mapWithIndex = (t, ~f) => Belt.Map.mapWithKeyU(t, f)
 
 let filter = (m, ~f) => Belt.Map.keep(m, (_, value) => f(value))
 
@@ -60,15 +60,15 @@ let keys = m => Array.to_list(Belt.Map.keysToArray(m))
 
 let values = m => Array.to_list(Belt.Map.valuesToArray(m))
 
-let maximum = Belt.Map.maxKey
+let maximum = t => Belt.Map.maxKey(t)
 
-let minimum = Belt.Map.minKey
+let minimum = t => Belt.Map.minKey(t)
 
 let extent = t => Option.both(minimum(t), maximum(t))
 
-let toArray = Belt.Map.toArray
+let toArray = t => Belt.Map.toArray(t)
 
-let toList = Belt.Map.toList
+let toList = t => Belt.Map.toList(t)
 
 module Poly = {
   type identity
@@ -84,7 +84,7 @@ module Poly = {
 
           type identity = identity
 
-          let cmp = Pervasives.compare |> Obj.magic
+          let cmp = Obj.magic(Pervasives.compare)
         }
       ),
     )
@@ -101,7 +101,7 @@ module Int = {
 
   type t<'value> = t<TableclothInt.t, 'value, identity>
 
-  let fromArray = a => Poly.fromArray(a) |> Obj.magic
+  let fromArray = a => Obj.magic(Poly.fromArray(a))
 
   let empty = fromArray([])
 
@@ -115,7 +115,7 @@ module String = {
 
   type t<'value> = t<TableclothString.t, 'value, identity>
 
-  let fromArray = a => Poly.fromArray(a) |> Obj.magic
+  let fromArray = a => Obj.magic(Poly.fromArray(a))
 
   let empty = fromArray([])
 

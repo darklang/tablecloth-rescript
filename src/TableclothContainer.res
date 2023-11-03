@@ -13,4 +13,3 @@ module type Sum = {
 
   let add: (t, t) => t
 }
-

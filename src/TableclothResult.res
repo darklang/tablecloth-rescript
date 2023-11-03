@@ -1,18 +1,18 @@
 type t<'ok, 'error> = result<'ok, 'error>
 
-let ok = a => Belt.Result.Ok(a)
+let ok = a => Ok(a)
 
-let error = e => Belt.Result.Error(e)
+let error = e => Error(e)
 
 let fromOption = (ma, ~error) =>
   switch ma {
-  | None => Belt.Result.Error(error)
-  | Some(right) => Belt.Result.Ok(right)
+  | None => Error(error)
+  | Some(right) => Ok(right)
   }
 
-let isError = Belt.Result.isError
+let isError = t => Belt.Result.isError(t)
 
-let isOk = Belt.Result.isOk
+let isOk = t => Belt.Result.isOk(t)
 
 let both = (a, b) =>
   switch (a, b) {
@@ -74,16 +74,17 @@ let map2 = (a, b, ~f) =>
   | (_, Error(b)) => Error(b)
   }
 
-let values = t => List.fold_right(map2(~f=(a, b) => list{a, ...b}), t, Ok(list{}))
+let values = t => List.fold_right((c, d) => map2(c, d, ~f=(a, b) => list{a, ...b}), t, Ok(list{}))
 
 let combine = (l: list<result<'ok, 'error>>): result<list<'ok>, 'error> =>
   TableclothList.foldRight(
     ~f=(accum: result<list<'ok>, 'error>, value: result<'ok, 'error>): result<list<'ok>, 'error> =>
       map2(~f=(head: 'ok, list: list<'ok>) => list{head, ...list}, value, accum),
     ~initial=Ok(list{}),
-  )(l)
+    l,
+  )
 
-let map = (t, ~f) => Belt.Result.map(t, f)
+let map = (t, ~f) => Belt.Result.map(t, a => f(a))
 
 let mapError = (t, ~f) =>
   switch t {
@@ -97,7 +98,7 @@ let toOption = r =>
   | Error(_) => None
   }
 
-let andThen = (t, ~f) => Belt.Result.flatMap(t, f)
+let andThen = (t, ~f) => Belt.Result.flatMapU(t, f)
 
 let attempt = f =>
   switch f() {
@@ -130,4 +131,3 @@ let compare = (
   | (Error(_), Ok(_)) => -1
   | (Ok(_), Error(_)) => 1
   }
-

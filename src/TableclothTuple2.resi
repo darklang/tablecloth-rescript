@@ -181,4 +181,3 @@ let equal: (t<'a, 'b>, t<'a, 'b>, ('a, 'a) => bool, ('b, 'b) => bool) => bool
     ]}
 ")
 let compare: (t<'a, 'b>, t<'a, 'b>, ~f: ('a, 'a) => int, ~g: ('b, 'b) => int) => int
-

@@ -91,4 +91,3 @@ let isWhitespace = x =>
 let equal = \"="
 
 let compare = compare
-
