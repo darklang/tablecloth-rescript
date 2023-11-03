@@ -15,8 +15,8 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "@glennsl/bs-jest": "0.7.0",
-    "rescript": "10.0.1"
+    "@glennsl/rescript-jest": "^0.10.0",
+    "rescript": "11.0.0-rc.5"
   },
   "scripts": {
     "clean": "rescript clean",

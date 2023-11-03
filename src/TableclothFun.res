@@ -46,4 +46,3 @@ let uncurry = (f: ('a, 'b) => 'c, (a, b): ('a, 'b)): 'c => f(a, b)
 let curry3 = (f, a, b, c) => f((a, b, c))
 
 let uncurry3 = (f, (a, b, c)) => f(a, b, c)
-

@@ -1,5 +1,7 @@
 open Tablecloth
-open AlcoJest
+
+open Jest
+open Expect
 
 module Book = {
   type t = {
@@ -45,10 +47,7 @@ module BookByIsbnThenTitle = {
   })
 }
 
-let book = {
-  let eq = (a: Book.t, b: Book.t): bool => a == b
-  Eq.make(eq)
-}
+let book = (a: Book.t, b: Book.t): bool => a == b
 
 let mobyDick: Book.t = {isbn: "9788460767923", title: "Moby Dick or The Whale"}
 
@@ -58,25 +57,20 @@ let frankenstein: Book.t = {isbn: "9781478198406", title: "Frankenstein"}
 
 let frankensteinAlternateTitle: Book.t = {isbn: "9781478198406", title: "The Modern Prometheus"}
 
-let suite = suite("Comparator", () => {
-  describe("Make", () =>
-    test("module documentation example", () => {
-      let result: list<Book.t> =
-        Set.fromList(
-          list{frankenstein, frankensteinAlternateTitle},
-          module(BookByIsbn),
-        ) |> Set.toList
+describe("Make", () =>
+  test("module documentation example", () => {
+    let result: list<Book.t> =
+      Set.fromList(list{frankenstein, frankensteinAlternateTitle}, module(BookByIsbn))->Set.toList
 
-      expect(result) |> toEqual(Eq.list(book), list{frankenstein})
-    })
-  )
-  describe("make", () =>
-    test("module documentation example", () => {
-      let result: list<Book.t> =
-        Set.fromList(list{mobyDick, mobyDickReissue}, module(BookByTitle)) |> Set.toList
+    expect(result)->toEqual(list{frankenstein})
+  })
+)
+describe("make", () =>
+  test("module documentation example", () => {
+    let result: list<Book.t> = Set.toList(
+      Set.fromList(list{mobyDick, mobyDickReissue}, module(BookByTitle)),
+    )
 
-      expect(result) |> toEqual(Eq.list(book), list{mobyDick})
-    })
-  )
-})
-
+    expect(result)->toEqual(list{mobyDick})
+  })
+)

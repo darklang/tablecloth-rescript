@@ -329,7 +329,10 @@ let filter: (t<'key, 'value, 'id>, ~f: 'value => bool) => t<'key, 'value, 'id>
 
     The output list only contains elements for which [f] returns [Some].
 ")
-let filterMap : (t<'key, 'value, 'id>, ~f:((~key:'key, ~value:'value) => option<'b>)) => t<'key, 'b, 'id>
+let filterMap: (
+  t<'key, 'value, 'id>,
+  ~f: (~key: 'key, ~value: 'value) => option<'b>,
+) => t<'key, 'b, 'id>
 
 @ocaml.doc(" Divide a map into two, the first map will contain the key-value pairs that [f] returns [true] for, pairs that [f] returns [false] for will end up in the second.
 

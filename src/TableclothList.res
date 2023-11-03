@@ -20,24 +20,24 @@ let rec repeat = (element, ~times) =>
     list{element, ...repeat(element, ~times=times - 1)}
   }
 
-let flatten = Belt.List.flatten
+let flatten = t => Belt.List.flatten(t)
 
-let reverse = Belt.List.reverse
+let reverse = t => Belt.List.reverse(t)
 
-let append = Belt.List.concat
+let append = (a, b) => Belt.List.concat(a, b)
 
 let sum = (type a, t, module(M: TableclothContainer.Sum with type t = a)) =>
   List.fold_left(M.add, M.zero, t)
 
-let map = (t, ~f) => Belt.List.map(t, f)
+let map = (t, ~f) => Belt.List.map(t, a => f(a))
 
 let flatMap = (t, ~f) => flatten(map(t, ~f))
 
-let mapWithIndex = (list, ~f) => Belt.List.mapWithIndex(list, f)
+let mapWithIndex = (list, ~f) => Belt.List.mapWithIndex(list, (a, b) => f(a, b))
 
-let map2 = (a, b, ~f) => Belt.List.zipBy(a, b, f)
+let map2 = (a, b, ~f) => Belt.List.zipBy(a, b, (a, b) => f(a, b))
 
-let zip = map2(~f=(a, b) => (a, b))
+let zip = (a, b) => map2(a, b, ~f=(a, b) => (a, b))
 
 let rec map3 = (a, b, c, ~f) =>
   switch (a, b, c) {
@@ -54,7 +54,7 @@ let rec last = l =>
 
 let unzip = list => (List.map(((a, _)) => a, list), List.map(((_, b)) => b, list))
 
-let includes = (t, value, ~equal) => Belt.List.has(t, value, equal)
+let includes = (t, value, ~equal) => Belt.List.has(t, value, (a, b) => equal(a, b))
 
 let uniqueBy = (l: list<'a>, ~f: 'a => string): list<'a> => {
   let rec uniqueHelper = (
@@ -82,11 +82,11 @@ let uniqueBy = (l: list<'a>, ~f: 'a => string): list<'a> => {
   uniqueHelper(f, Belt.Set.String.empty, l, list{})
 }
 
-let find = (t, ~f) => Belt.List.getBy(t, f)
+let find = (t, ~f) => Belt.List.getBy(t, a => f(a))
 
 let getAt = (t, ~index) => Belt.List.get(t, index)
 
-let any = (t, ~f) => List.exists(f, t)
+let any = (t, ~f) => List.exists(a => f(a), t)
 
 let head = l => Belt.List.head(l)
 
@@ -118,19 +118,19 @@ let initial = l =>
   | list{_, ...rest} => Some(reverse(rest))
   }
 
-let filterMap = (t, ~f) => Belt.List.keepMap(t, f)
+let filterMap = (t, ~f) => Belt.List.keepMap(t, a => f(a))
 
-let filter = (t, ~f) => Belt.List.keep(t, f)
+let filter = (t, ~f) => Belt.List.keep(t, a => f(a))
 
 let filterWithIndex = (t, ~f) => Belt.List.keepWithIndex(t, (e, i) => f(i, e))
 
-let partition = (t, ~f) => Belt.List.partition(t, f)
+let partition = (t, ~f) => Belt.List.partition(t, a => f(a))
 
-let fold = (t, ~initial, ~f) => Belt.List.reduce(t, initial, f)
+let fold = (t, ~initial, ~f) => Belt.List.reduce(t, initial, (a, b) => f(a, b))
 
 let count = (t, ~f) => fold(t, ~initial=0, ~f=(total, element) => total + (f(element) ? 1 : 0))
 
-let foldRight = (t, ~initial, ~f) => Belt.List.reduceReverse(t, initial, f)
+let foldRight = (t, ~initial, ~f) => Belt.List.reduceReverse(t, initial, (a, b) => f(a, b))
 
 let findIndex = (list, ~f) => {
   let rec loop = (i, l) =>
@@ -209,7 +209,7 @@ let takeWhile = (t, ~f) => {
   takeWhileHelper(list{}, t)
 }
 
-let all = (t, ~f) => Belt.List.every(t, f)
+let all = (t, ~f) => Belt.List.every(t, a => f(a))
 
 let tail = t =>
   switch t {
@@ -287,7 +287,7 @@ let extent = (t, ~compare) =>
     }
   )
 
-let sort = (t, ~compare) => Belt.List.sort(t, compare)
+let sort = (t, ~compare) => Belt.List.sort(t, (a, b) => compare(a, b))
 
 let sortBy = (l: t<'a>, ~f: 'a => 'b): t<'a> =>
   Belt.List.sort(l, (a, b) => {
@@ -348,19 +348,17 @@ let intersperse = (t, ~sep) =>
   switch t {
   | list{} => list{}
   | list{x} => list{x}
-  | list{x, ...rest} => list{
-      x,
-      ...foldRight(rest, ~initial=list{}, ~f=(acc, x) => list{sep, x, ...acc}),
-    }
+  | list{x, ...rest} =>
+    list{x, ...foldRight(rest, ~initial=list{}, ~f=(acc, x) => list{sep, x, ...acc})}
   }
 
-let initialize = (length, ~f) => Belt.List.makeBy(length, f)
+let initialize = (length, ~f) => Belt.List.makeBy(length, a => f(a))
 
-let forEach = (t, ~f): unit => Belt.List.forEach(t, f)
+let forEach = (t, ~f): unit => Belt.List.forEach(t, a => f(a))
 
-let forEachWithIndex = (t, ~f): unit => Belt.List.forEachWithIndex(t, f)
+let forEachWithIndex = (t, ~f): unit => Belt.List.forEachWithIndex(t, (a, b) => f(a, b))
 
-let toArray = Array.of_list
+let toArray = t => Array.of_list(t)
 
 let join = (strings, ~sep) => Js.Array.joinWith(sep, toArray(strings))
 
@@ -393,4 +391,3 @@ let rec compare = (a, b, compareElement) =>
     | result => result
     }
   }
-

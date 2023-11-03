@@ -17,39 +17,39 @@ let fromList = (elements: list<'a>, comparator: TableclothComparator.s<'a, 'iden
   'identity,
 > => Belt.Set.fromArray(~id=Internal.toBeltComparator(comparator), Array.of_list(elements))
 
-let length = Belt.Set.size
+let length = t => Belt.Set.size(t)
 
-let isEmpty = Belt.Set.isEmpty
+let isEmpty = t => Belt.Set.isEmpty(t)
 
-let includes = Belt.Set.has
+let includes = (t, a) => Belt.Set.has(t, a)
 
-let add = Belt.Set.add
+let add = (t, a) => Belt.Set.add(t, a)
 
-let remove = Belt.Set.remove
+let remove = (t, a) => Belt.Set.remove(t, a)
 
-let difference = Belt.Set.diff
+let difference = (t, a) => Belt.Set.diff(t, a)
 
-let intersection = Belt.Set.intersect
+let intersection = (t, a) => Belt.Set.intersect(t, a)
 
-let union = Belt.Set.union
+let union = (t, a) => Belt.Set.union(t, a)
 
-let filter = (s, ~f) => Belt.Set.keep(s, f)
+let filter = (s, ~f) => Belt.Set.keep(s, a => f(a))
 
-let partition = (s, ~f) => Belt.Set.partition(s, f)
+let partition = (s, ~f) => Belt.Set.partition(s, a => f(a))
 
-let find = (s, ~f) => (Belt.Set.toArray(s) |> Belt.Array.getBy)(f)
+let find = (s, ~f) => Belt.Set.toArray(s)->Belt.Array.getBy(a => f(a))
 
-let all = (s, ~f) => Belt.Set.every(s, f)
+let all = (s, ~f) => Belt.Set.every(s, a => f(a))
 
-let any = (s, ~f) => Belt.Set.some(s, f)
+let any = (s, ~f) => Belt.Set.some(s, a => f(a))
 
-let forEach = (s, ~f) => Belt.Set.forEach(s, f)
+let forEach = (s, ~f) => Belt.Set.forEach(s, a => f(a))
 
-let fold = (s, ~initial, ~f) => Belt.Set.reduce(s, initial, f)
+let fold = (s, ~initial, ~f) => Belt.Set.reduce(s, initial, (a, b) => f(a, b))
 
-let toArray = Belt.Set.toArray
+let toArray = t => Belt.Set.toArray(t)
 
-let toList = Belt.Set.toList
+let toList = t => Belt.Set.toList(t)
 
 module Poly = {
   type identity
@@ -65,12 +65,12 @@ module Poly = {
 
           type identity = identity
 
-          let cmp = Pervasives.compare |> Obj.magic
+          let cmp = Obj.magic(Pervasives.compare)
         }
       ),
     )
 
-  let fromList = l => Array.of_list(l) |> fromArray
+  let fromList = l => fromArray(Array.of_list(l))
 
   let empty = () => fromArray([])
 
@@ -82,13 +82,13 @@ module Int = {
 
   type t = t<TableclothInt.t, identity>
 
-  let fromArray = a => Poly.fromArray(a) |> Obj.magic
+  let fromArray = a => Obj.magic(Poly.fromArray(a))
 
   let empty = fromArray([])
 
   let singleton = a => fromArray([a])
 
-  let fromList = l => Array.of_list(l) |> fromArray
+  let fromList = l => fromArray(Array.of_list(l))
 }
 
 module String = {
@@ -96,12 +96,11 @@ module String = {
 
   type t = t<TableclothString.t, identity>
 
-  let fromArray = a => Poly.fromArray(a) |> Obj.magic
+  let fromArray = a => Obj.magic(Poly.fromArray(a))
 
   let empty = fromArray([])
 
   let singleton = a => fromArray([a])
 
-  let fromList = l => Array.of_list(l) |> fromArray
+  let fromList = l => fromArray(Array.of_list(l))
 }
-

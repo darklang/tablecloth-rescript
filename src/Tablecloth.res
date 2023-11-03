@@ -44,4 +44,3 @@ module Map = TableclothMap
 
 @ocaml.doc(" Functions for working with functions. ")
 module Fun = TableclothFun
-

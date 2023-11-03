@@ -27,4 +27,3 @@ let toInt = t => t ? 1 : 0
 let compare = compare
 
 let equal = \"="
-

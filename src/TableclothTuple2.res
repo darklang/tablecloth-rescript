@@ -40,4 +40,3 @@ let compare = ((a, b), (a', b'), ~f as compareFirst, ~g as compareSecond) =>
   | 0 => compareSecond(b, b')
   | result => result
   }
-

@@ -61,4 +61,3 @@ let compare = (
     }
   | result => result
   }
-

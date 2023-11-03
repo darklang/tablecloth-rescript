@@ -96,4 +96,3 @@ type s<'a, 'identity> = module(S with type identity = 'identity and type t = 'a)
     ]}
 ")
 module Make: (M: T) => (S with type t := M.t)
-
