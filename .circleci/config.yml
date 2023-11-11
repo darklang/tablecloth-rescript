@@ -43,4 +43,4 @@ workflows:
                 # Pre version 9 not supported as the package was renamed to rescript in 9.1
                 - "9.1.4"
                 - "10.1.4"
-                - "11.0.0-rc-5"
+                - "11.0.0-rc.5"
