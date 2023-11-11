@@ -40,7 +40,7 @@ workflows:
           matrix:
             parameters:
               rescript-version:
-                # Pre version 9 not supported as the package was renamed to rescript in 9.1
-                - "9.1.4"
+                # CI testing with version 9 not supported as the tests depend on glennsl/rescript-jest.
+                # The lib itself works with the version 9
                 - "10.1.4"
                 - "11.0.0-rc.5"
