@@ -22,7 +22,7 @@ module Make = (M: T): (S with type t = M.t) => {
   module BeltComparator = Belt.Id.MakeComparableU({
     type t = M.t
 
-    let cmp = M.compare
+    let cmp = (. a, b) => M.compare(a, b)
   })
 
   type t = M.t

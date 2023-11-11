@@ -30,7 +30,7 @@ let both = (a, b) =>
   | _ => None
   }
 
-let map = (t, ~f) => Belt.Option.mapU(t, f)
+let map = (t, ~f) => Belt.Option.map(t, a => f(a))
 
 let map2 = (a, b, ~f) =>
   switch (a, b) {

@@ -3,7 +3,7 @@ type t = int
 include TableclothComparator.Make({
   type t = t
 
-  let compare = compare
+  let compare = (a, b) => compare(a, b)
 })
 
 let minimumValue = Js.Int.min

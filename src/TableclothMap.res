@@ -26,13 +26,13 @@ let remove = (t, k) => Belt.Map.remove(t, k)
 
 let get = (t, k) => Belt.Map.get(t, k)
 
-let update = (m, ~key, ~f) => Belt.Map.updateU(m, key, f)
+let update = (m, ~key, ~f) => Belt.Map.update(m, key, a => f(a))
 
-let merge = (m1, m2, ~f) => Belt.Map.mergeU(m1, m2, f)
+let merge = (m1, m2, ~f) => Belt.Map.merge(m1, m2, (m, a, b) => f(m, a, b))
 
 let map = (m, ~f) => Belt.Map.map(m, value => f(value))
 
-let mapWithIndex = (t, ~f) => Belt.Map.mapWithKeyU(t, f)
+let mapWithIndex = (t, ~f) => Belt.Map.mapWithKey(t, (a, b) => f(a, b))
 
 let filter = (m, ~f) => Belt.Map.keep(m, (_, value) => f(value))
 

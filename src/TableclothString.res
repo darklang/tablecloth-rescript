@@ -3,7 +3,7 @@ type t = string
 include TableclothComparator.Make({
   type t = t
 
-  let compare = compare
+  let compare = (a, b) => compare(a, b)
 })
 
 let initialize = (length, ~f) =>
@@ -126,7 +126,7 @@ let insertAt = (t, ~index, ~value) =>
 
 let forEach = (t, ~f) => Js.Array.forEach(a => f(a), toArray(t))
 
-let fold = (t, ~initial, ~f) => Belt.Array.reduceU(toArray(t), initial, f)
+let fold = (t, ~initial, ~f) => Belt.Array.reduce(toArray(t), initial, (a, ch) => f(a, ch))
 
 let equal = \"="
 
