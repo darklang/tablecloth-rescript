@@ -167,13 +167,13 @@ describe("reverse", () => {
   test("two elements", () => expect(reverse(list{0, 1}))->toEqual(list{1, 0}))
 })
 describe("map2", () => {
-  test("map2 empty lists", () => expect(map2(~f=\"+", list{}, list{}))->toEqual(list{}))
-  test("map2 one element", () => expect(map2(~f=\"+", list{1}, list{1}))->toEqual(list{2}))
+  test("map2 empty lists", () => expect(map2(~f=(a,b) =>(a+b), list{}, list{}))->toEqual(list{}))
+  test("map2 one element", () => expect(map2(~f=(a,b) =>(a+b), list{1}, list{1}))->toEqual(list{2}))
   test("map2 two elements", () =>
-    expect(map2(~f=\"+", list{1, 2}, list{1, 2}))->toEqual(list{2, 4})
+    expect(map2(~f=(a,b) =>(a+b), list{1, 2}, list{1, 2}))->toEqual(list{2, 4})
   )
   test("map2 with lists of different lengths", () =>
-    expect(map2(~f=\"+", list{1, 2, 3}, list{1, 2}))->toEqual(list{2, 4})
+    expect(map2(~f=(a,b) =>(a+b), list{1, 2, 3}, list{1, 2}))->toEqual(list{2, 4})
   )
 })
 
@@ -265,7 +265,7 @@ describe("groupWhile", () => {
   test("empty list", () => expect(groupWhile(~f=String.equal, list{}))->toEqual(list{}))
 
   test("normal char", () =>
-    expect(groupWhile(~f=\"<>", list{"a", "b", "b", "a", "a", "a", "b", "a"}))->toEqual(list{
+    expect(groupWhile(~f=(a,b) => a !==b, list{"a", "b", "b", "a", "a", "a", "b", "a"}))->toEqual(list{
       list{"a"},
       list{"b", "b"},
       list{"a", "a", "a"},
@@ -402,7 +402,7 @@ describe("sum", () => {
 
             let zero = ""
 
-            let add = \"^"
+            let add = (a,b) => a ++ b
           }
         ),
       ),
@@ -543,8 +543,8 @@ describe("fold", () => {
   test("foldr three elements", () =>
     expect(foldRight(~f=cons, ~initial=list{}, list{1, 2, 3}))->toEqual(list{1, 2, 3})
   )
-  test("-", () => expect(fold(~f=\"-", ~initial=0, list{1, 2, 3}))->toEqual(-6))
-  test("- foldRight", () => expect(foldRight(~f=\"-", ~initial=0, list{1, 2, 3}))->toEqual(-6))
+  test("-", () => expect(fold(~f=(a,b)=> a-b, ~initial=0, list{1, 2, 3}))->toEqual(-6))
+  test("- foldRight", () => expect(foldRight(~f=(a,b)=> a-b, ~initial=0, list{1, 2, 3}))->toEqual(-6))
 })
 describe("insertAt", () => {
   test("empty list", () => expect(insertAt(~index=0, ~value=1, list{}))->toEqual(list{1}))

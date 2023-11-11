@@ -3,6 +3,7 @@ open Jest
 open Expect
 
 open Bool
+
 describe("fromInt", () => {
   test("converts zero to Some(false)", () => expect(fromInt(0))->toEqual(Some(false)))
   test("converts one to Some(true)", () => expect(fromInt(1))->toEqual(Some(true)))

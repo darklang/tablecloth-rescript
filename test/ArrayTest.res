@@ -3,6 +3,8 @@ open Jest
 open Expect
 
 open Array
+
+
 describe("singleton", () => {
   test("equals an array literal of the same value", () => expect(singleton(1234))->toEqual([1234]))
   test("has length one", () => expect(length(singleton(1)))->toEqual(1))
@@ -179,12 +181,12 @@ describe("map", () =>
 )
 describe("mapWithIndex", () =>
   test("equals an array literal of the same value", () =>
-    expect(mapWithIndex(~f=\"*", [5, 5, 5]))->toEqual([0, 5, 10])
+    expect(mapWithIndex(~f=(a,b)=> a*b, [5, 5, 5]))->toEqual([0, 5, 10])
   )
 )
 describe("map2", () => {
   test("works the order of arguments to `f` is not important", () =>
-    expect(map2(~f=\"+", [1, 2, 3], [4, 5, 6]))->toEqual([5, 7, 9])
+    expect(map2(~f=(a,b)=> a+b, [1, 2, 3], [4, 5, 6]))->toEqual([5, 7, 9])
   )
   test("works the order of `f` is important", () =>
     expect(map2(~f=Tuple2.make, ["alice", "bob", "chuck"], [2, 5, 7, 8]))->toEqual([
@@ -315,11 +317,11 @@ describe("findIndex", () => {
 })
 
 describe("includes", () => {
-  test("returns true if equal", () => expect(includes([1, 2, 3], 2, ~equal=\"="))->toEqual(true))
+  test("returns true if equal", () => expect(includes([1, 2, 3], 2, ~equal=(a,b)=> a===b))->toEqual(true))
   test("returns false if not equal", () =>
-    expect(includes([1, 5, 3], 2, ~equal=\"="))->toEqual(false)
+    expect(includes([1, 5, 3], 2, ~equal=(a,b)=> a===b))->toEqual(false)
   )
-  test("returns false if empty", () => expect(includes([], 2, ~equal=\"="))->toEqual(false))
+  test("returns false if empty", () => expect(includes([], 2, ~equal=(a,b)=> a===b))->toEqual(false))
 })
 
 describe("minimum", () => {
@@ -481,12 +483,12 @@ describe("slice", () => {
   test("works `from` >= `to_`", () => expect(slice(~from=4, ~to_=3, numbers))->toEqual([]))
 })
 describe("fold", () => {
-  test("works for an empty array", () => expect(fold([], ~f=\"^", ~initial=""))->toEqual(""))
+  test("works for an empty array", () => expect(fold([], ~f=(a,b)=> a++b, ~initial=""))->toEqual(""))
   test("works for an ascociative operator", () =>
-    expect(fold(~f=\"*", ~initial=1, repeat(~length=4, 7)))->toEqual(2401)
+    expect(fold(~f=(a,b)=> a*b, ~initial=1, repeat(~length=4, 7)))->toEqual(2401)
   )
   test("works the order of arguments to `f` is important", () =>
-    expect(fold(["a", "b", "c"], ~f=\"^", ~initial=""))->toEqual("abc")
+    expect(fold(["a", "b", "c"], ~f=(a,b)=> a++b, ~initial=""))->toEqual("abc")
   )
   test("works the order of arguments to `f` is important", () =>
     expect(
@@ -495,10 +497,10 @@ describe("fold", () => {
   )
 })
 describe("foldRight", () => {
-  test("works for empty arrays", () => expect(foldRight([], ~f=\"^", ~initial=""))->toEqual(""))
-  test("foldRight", () => expect(foldRight(~f=\"+", ~initial=0, repeat(~length=3, 5)))->toEqual(15))
+  test("works for empty arrays", () => expect(foldRight([], ~f=(a,b)=> a++b, ~initial=""))->toEqual(""))
+  test("foldRight", () => expect(foldRight(~f=(a,b)=> a+b, ~initial=0, repeat(~length=3, 5)))->toEqual(15))
   test("works the order of arguments to `f` is important", () =>
-    expect(foldRight(["a", "b", "c"], ~f=\"^", ~initial=""))->toEqual("cba")
+    expect(foldRight(["a", "b", "c"], ~f=(a,b)=> a++b, ~initial=""))->toEqual("cba")
   )
   test("works the order of arguments to `f` is important", () =>
     expect(
