@@ -3,7 +3,7 @@ type t = int
 include TableclothComparator.Make({
   type t = t
 
-  let compare = compare
+  let compare = (a, b) => compare(a, b)
 })
 
 let minimumValue = Js.Int.min
@@ -58,9 +58,9 @@ let modulo = (n, ~by) =>
     by,
   )
 
-let maximum = Js.Math.max_int
+let maximum = (a, b) => Js.Math.max_int(a, b)
 
-let minimum = Js.Math.min_int
+let minimum = (a, b) => Js.Math.min_int(a, b)
 
 let absolute = abs
 
@@ -82,11 +82,10 @@ let inRange = (n, ~lower, ~upper) =>
     n >= lower && n < upper
   }
 
-let toFloat = Js.Int.toFloat
+let toFloat = t => Js.Int.toFloat(t)
 
-let toString = Js.Int.toString
+let toString = t => Js.Int.toString(t)
 
 let equal = \"="
 
 let compare = compare
-

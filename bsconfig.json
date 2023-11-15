@@ -1,6 +1,6 @@
 {
   "name": "tablecloth-rescript",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "sources": [
     {
       "dir": "src",
@@ -38,7 +38,7 @@
   "suffix": ".bs.js",
   "bs-dependencies": [],
   "bs-dev-dependencies": [
-    "@glennsl/bs-jest"
+    "@glennsl/rescript-jest"
   ],
   "bsc-flags": [
     "-bs-g",

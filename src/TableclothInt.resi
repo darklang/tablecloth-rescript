@@ -329,4 +329,3 @@ let compare: (t, t) => int
 type identity
 
 let comparator: TableclothComparator.t<t, identity>
-

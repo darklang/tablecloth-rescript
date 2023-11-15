@@ -770,4 +770,3 @@ let equal: (t, t) => bool
 
 @ocaml.doc(" Compare two floats. ")
 let compare: (t, t) => int
-

@@ -19,10 +19,10 @@ module type S = {
 type s<'a, 'identity> = module(S with type identity = 'identity and type t = 'a)
 
 module Make = (M: T): (S with type t = M.t) => {
-  module BeltComparator = Belt.Id.MakeComparable({
+  module BeltComparator = Belt.Id.MakeComparableU({
     type t = M.t
 
-    let cmp = M.compare
+    let cmp = (. a, b) => M.compare(a, b)
   })
 
   type t = M.t
@@ -31,4 +31,3 @@ module Make = (M: T): (S with type t = M.t) => {
 
   let comparator = BeltComparator.cmp
 }
-

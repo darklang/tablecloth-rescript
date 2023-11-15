@@ -1,13 +1,13 @@
 type t = float
 
-let fromInt = Js.Int.toFloat
+let fromInt = t => Js.Int.toFloat(t)
 
 let fromString = string =>
-  switch string |> String.lowercase_ascii {
+  switch String.lowercase_ascii(string) {
   | "nan" => Some(Js.Float._NaN)
   | _ =>
     switch Js.Float.fromString(string) {
-    | result if result |> Js.Float.isNaN => None
+    | result if Js.Float.isNaN(result) => None
     | result => Some(result)
     }
   }
@@ -24,7 +24,7 @@ let power = (~base, ~exponent) => Js.Math.pow_float(~base, ~exp=exponent)
 
 let negate = \"~-."
 
-let absolute = Js.Math.abs_float
+let absolute = t => Js.Math.abs_float(t)
 
 let clamp = (n, ~lower, ~upper) =>
   if upper < lower {
@@ -82,9 +82,9 @@ let epsilon = epsilon_float
 
 @scope("Number") @val external minimumSafeInteger: t = "MIN_SAFE_INTEGER"
 
-let isNaN = Js.Float.isNaN
+let isNaN = t => Js.Float.isNaN(t)
 
-let isFinite = Js.Float.isFinite
+let isFinite = t => Js.Float.isFinite(t)
 
 let isInfinite = n => !Js.Float.isFinite(n) && !isNaN(n)
 
@@ -110,7 +110,7 @@ let minimum = (x, y) =>
     x
   }
 
-let hypotenuse = Js.Math.hypot
+let hypotenuse = (a, b) => Js.Math.hypot(a, b)
 
 type radians = float
 
@@ -120,17 +120,17 @@ external radians: float => float = "%identity"
 
 let turns = n => n *. 2. *. pi
 
-let cos = Js.Math.cos
+let cos = t => Js.Math.cos(t)
 
-let acos = Js.Math.acos
+let acos = t => Js.Math.acos(t)
 
-let sin = Js.Math.sin
+let sin = t => Js.Math.sin(t)
 
-let asin = Js.Math.asin
+let asin = t => Js.Math.asin(t)
 
-let tan = Js.Math.tan
+let tan = t => Js.Math.tan(t)
 
-let atan = Js.Math.atan
+let atan = t => Js.Math.atan(t)
 
 let atan2 = (~y, ~x) => Js.Math.atan2(~y, ~x, ())
 
@@ -189,11 +189,11 @@ let round = (~direction=#Closest(#Up), n) =>
     }
   }
 
-let floor = Js.Math.floor_float
+let floor = t => Js.Math.floor_float(t)
 
-let ceiling = Js.Math.ceil_float
+let ceiling = t => Js.Math.ceil_float(t)
 
-let truncate = Js.Math.trunc
+let truncate = t => Js.Math.trunc(t)
 
 let fromPolar = ((r, theta)) => (r *. cos(theta), r *. sin(theta))
 
@@ -206,9 +206,8 @@ let toInt = f =>
     None
   }
 
-let toString = Js.Float.toString
+let toString = t => Js.Float.toString(t)
 
 let equal = \"="
 
-let compare = compare
-
+let compare = (a, b) => compare(a, b)

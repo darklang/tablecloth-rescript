@@ -994,4 +994,3 @@ let equal: (t<'a>, t<'a>, ('a, 'a) => bool) => bool
     ]}
 ")
 let compare: (t<'a>, t<'a>, ('a, 'a) => int) => int
-

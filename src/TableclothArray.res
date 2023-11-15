@@ -4,25 +4,27 @@ let singleton = a => [a]
 
 let clone = t => Array.map(TableclothFun.identity, t)
 
-let length = Belt.Array.length
+let length = t => Belt.Array.length(t)
 
 let isEmpty = a => length(a) == 0
 
-let initialize = (length, ~f) => Belt.Array.makeBy(length, f)
+let initialize = (length, ~f) => Belt.Array.makeBy(length, a => f(a))
 
 let range = (~from=0, to_) => Belt.Array.makeBy(to_ - from, i => i + from)
 
-let fromList = Belt.List.toArray
+let fromList = t => Belt.List.toArray(t)
 
-let toList: array<'a> => list<'a> = Belt.List.fromArray
+let toList: array<'a> => list<'a> = t => Belt.List.fromArray(t)
 
 let toIndexedList = (array: array<'a>): list<(int, 'a)> =>
-  Belt.Array.reduceReverse(array, (length(array) - 1, list{}), ((i, acc), x) => (
-    i - 1,
-    list{(i, x), ...acc},
-  )) |> snd
+  snd(
+    Belt.Array.reduceReverse(array, (length(array) - 1, list{}), ((i, acc), x) => (
+      i - 1,
+      list{(i, x), ...acc},
+    )),
+  )
 
-let get = Belt.Array.getExn
+let get = (t, k) => Belt.Array.getExn(t, k)
 
 let getAt = (t, ~index) => Belt.Array.get(t, index)
 
@@ -34,7 +36,7 @@ let set = (t, index, value) => t[index] = value
 
 let setAt = (t, ~index, ~value) => t[index] = value
 
-let filter = (t, ~f) => Belt.Array.keep(t, f)
+let filter = (t, ~f) => Belt.Array.keep(t, a => f(a))
 
 let swap = (t, i, j) => {
   let temp = t[i]
@@ -43,9 +45,9 @@ let swap = (t, i, j) => {
   ()
 }
 
-let fold = (t, ~initial, ~f) => Belt.Array.reduce(t, initial, f)
+let fold = (t, ~initial, ~f) => Belt.Array.reduce(t, initial, (a, b) => f(a, b))
 
-let foldRight = (t, ~initial, ~f) => Belt.Array.reduceReverse(t, initial, f)
+let foldRight = (t, ~initial, ~f) => Belt.Array.reduceReverse(t, initial, (a, b) => f(a, b))
 
 let maximum = (t, ~compare) =>
   fold(t, ~initial=None, ~f=(max, element) =>
@@ -75,9 +77,9 @@ let extent = (t, ~compare) =>
 let sum = (type a, t, module(M: TableclothContainer.Sum with type t = a)): a =>
   Array.fold_left(M.add, M.zero, t)
 
-let map = (t, ~f) => Belt.Array.map(t, f)
+let map = (t, ~f) => Belt.Array.map(t, a => f(a))
 
-let mapWithIndex = (t, ~f) => Belt.Array.mapWithIndex(t, f)
+let mapWithIndex = (t, ~f) => Belt.Array.mapWithIndex(t, (a, i) => f(a, i))
 
 let map2 = (a, b, ~f: ('a, 'b) => 'c): array<'c> => Belt.Array.zipBy(a, b, f)
 
@@ -87,9 +89,9 @@ let map3 = (as_, bs, cs: t<'c>, ~f) => {
   Belt.Array.makeBy(minLength, i => f(as_[i], bs[i], cs[i]))
 }
 
-let zip = map2(~f=(a, b) => (a, b))
+let zip = (a, b) => map2(a, b, ~f=(a, b) => (a, b))
 
-let flatMap = (t, ~f) => Belt.Array.map(t, f) |> Belt.Array.concatMany
+let flatMap = (t, ~f) => Belt.Array.concatMany(Belt.Array.map(t, a => f(a)))
 
 let sliding = (~step=1, a, ~size) => {
   let n = Array.length(a)
@@ -126,11 +128,11 @@ let findIndex = (array, ~f) => {
   loop(0)
 }
 
-let any = (t, ~f) => Belt.Array.some(t, f)
+let any = (t, ~f) => Belt.Array.some(t, a => f(a))
 
-let all = (t, ~f) => Belt.Array.every(t, f)
+let all = (t, ~f) => Belt.Array.every(t, a => f(a))
 
-let includes = (t, v, ~equal) => any(t, ~f=equal(v))
+let includes = (t, v, ~equal) => any(t, ~f=a => equal(v, a))
 
 let append = (a, a') => Belt.Array.concat(a, a')
 
@@ -173,9 +175,9 @@ let count = (t, ~f) => fold(t, ~initial=0, ~f=(total, element) => total + (f(ele
 
 let chunksOf = (t, ~size) => sliding(t, ~step=size, ~size)
 
-let reverse = Belt.Array.reverseInPlace
+let reverse = t => Belt.Array.reverseInPlace(t)
 
-let forEach = (t, ~f): unit => Belt.Array.forEach(t, f)
+let forEach = (t, ~f): unit => Belt.Array.forEach(t, a => f(a))
 
 let forEachWithIndex = (t, ~f): unit =>
   for i in 0 to length(t) - 1 {
@@ -218,7 +220,7 @@ let filterMap = (t, ~f) => {
   result
 }
 
-let sort = (a, ~compare) => Array.sort(compare, a)
+let sort = (a, ~compare) => Array.sort((a, b) => compare(a, b), a)
 
 let values = t => {
   let result = fold(t, ~initial=list{}, ~f=(results, element) =>
@@ -281,4 +283,3 @@ let compare = (a, b, compare) =>
     }
   | result => result
   }
-

@@ -3,11 +3,11 @@ type t = string
 include TableclothComparator.Make({
   type t = t
 
-  let compare = compare
+  let compare = (a, b) => compare(a, b)
 })
 
 let initialize = (length, ~f) =>
-  Js.Array.joinWith("", Array.init(length, index => f(index) |> TableclothChar.toString))
+  Js.Array.joinWith("", Array.init(length, index => TableclothChar.toString(f(index))))
 
 let get = (string: string, index: int) => String.get(string, index)
 
@@ -21,19 +21,19 @@ let getAt = (string: string, ~index: int) =>
 let fromArray = characters =>
   Js.Array.joinWith(
     "",
-    Array.map(character => TableclothChar.toCode(character) |> Js.String.fromCharCode, characters),
+    Array.map(character => Js.String.fromCharCode(TableclothChar.toCode(character)), characters),
   )
 
 let fromList = t =>
   Js.Array.joinWith(
     "",
     Array.map(
-      character => TableclothChar.toCode(character) |> Js.String.fromCharCode,
+      character => Js.String.fromCharCode(TableclothChar.toCode(character)),
       Array.of_list(t),
     ),
   )
 
-let fromChar = c => TableclothChar.toCode(c) |> Js.String.fromCharCode
+let fromChar = c => Js.String.fromCharCode(TableclothChar.toCode(c))
 
 let indexOf = (haystack, needle): option<int> => {
   let result = Js.String.indexOf(needle, haystack)
@@ -55,7 +55,7 @@ let indexOfRight = (haystack, needle): option<int> => {
 
 let isEmpty = t => t == ""
 
-let length = Js.String.length
+let length = t => Js.String.length(t)
 
 let uncons = s =>
   switch s {
@@ -72,13 +72,13 @@ let dropRight = (s, ~count) =>
     Js.String.slice(~from=0, ~to_=-count, s)
   }
 
-let split = (t, ~on) => Js.String.split(on, t) |> Array.to_list
+let split = (t, ~on) => Array.to_list(Js.String.split(on, t))
 
 let endsWith = (t, ~suffix) => Js.String.endsWith(suffix, t)
 
 let startsWith = (t, ~prefix) => Js.String.startsWith(prefix, t)
 
-let trim = Js.String.trim
+let trim = t => Js.String.trim(t)
 
 @send external trimLeft: string => string = "trimStart"
 
@@ -92,9 +92,9 @@ let padLeft = (string, count, ~with_) => padLeft(string, count, with_)
 
 let padRight = (string, count, ~with_) => padRight(string, count, with_)
 
-let toLowercase = Js.String.toLowerCase
+let toLowercase = t => Js.String.toLowerCase(t)
 
-let toUppercase = Js.String.toUpperCase
+let toUppercase = t => Js.String.toUpperCase(t)
 
 let uncapitalize = str =>
   Js.String.toLowerCase(Js.String.charAt(0, str)) ++ Js.String.sliceToEnd(~from=1, str)
@@ -111,13 +111,12 @@ let repeat = (s, ~count) => Js.String.repeat(count, s)
 let reverse = s => Js.Array.joinWith("", Js.Array.reverseInPlace(Js.String.split("", s)))
 
 let toArray = (t: string): array<char> =>
-  Js.String.castToArrayLike(t)
-  |> Js.Array.from
-  |> Js.Array.map(characterString =>
-    TableclothChar.fromString(characterString) |> Belt.Option.getExn
+  Js.Array.map(
+    characterString => Belt.Option.getExn(TableclothChar.fromString(characterString)),
+    Js.Array.from(Js.String.castToArrayLike(t)),
   )
 
-let toList = (s: string): list<char> => toArray(s) |> Belt.List.fromArray
+let toList = (s: string): list<char> => Belt.List.fromArray(toArray(s))
 
 let slice = (~to_=?, t: string, ~from): string =>
   Js.String.slice(~from, ~to_=Belt.Option.getWithDefault(to_, length(t)), t)
@@ -125,11 +124,10 @@ let slice = (~to_=?, t: string, ~from): string =>
 let insertAt = (t, ~index, ~value) =>
   Js.String.slice(~from=0, ~to_=index, t) ++ (value ++ Js.String.sliceToEnd(~from=index, t))
 
-let forEach = (t, ~f) => Array.iter(f, toArray(t))
+let forEach = (t, ~f) => Js.Array.forEach(a => f(a), toArray(t))
 
-let fold = (t, ~initial, ~f) => Belt.Array.reduce(toArray(t), initial, f)
+let fold = (t, ~initial, ~f) => Belt.Array.reduce(toArray(t), initial, (a, ch) => f(a, ch))
 
 let equal = \"="
 
 let compare = compare
-

@@ -2,9 +2,9 @@ type t<'a> = option<'a>
 
 let some = a => Some(a)
 
-let isSome = Belt.Option.isSome
+let isSome = t => Belt.Option.isSome(t)
 
-let isNone = Belt.Option.isNone
+let isNone = t => Belt.Option.isNone(t)
 
 let or_ = (ta, tb) => isSome(ta) ? ta : tb
 
@@ -30,7 +30,7 @@ let both = (a, b) =>
   | _ => None
   }
 
-let map = (t, ~f) => Belt.Option.map(t, f)
+let map = (t, ~f) => Belt.Option.map(t, a => f(a))
 
 let map2 = (a, b, ~f) =>
   switch (a, b) {
@@ -46,7 +46,8 @@ let unwrapOrFailWith = (t, ~exn) =>
   | None => raise(exn)
   }
 
-let unwrapUnsafe = unwrapOrFailWith(~exn=Invalid_argument("Option.unwrapUnsafe called with None"))
+let unwrapUnsafe = t =>
+  unwrapOrFailWith(~exn=Invalid_argument("Option.unwrapUnsafe called with None"), t)
 
 let toArray = t =>
   switch t {
@@ -80,4 +81,3 @@ let compare = (a, b, ~f as compare) =>
   | (None, Some(_)) => -1
   | (Some(_), None) => 1
   }
-

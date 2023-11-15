@@ -11,4 +11,3 @@ let toBeltComparator = (
       let cmp = Obj.magic(M.comparator)
     }
   )
-

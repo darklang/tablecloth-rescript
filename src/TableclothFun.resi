@@ -203,4 +203,3 @@ let curry3: ((('a, 'b, 'c)) => 'd, 'a, 'b, 'c) => 'd
 
 @ocaml.doc(" Like {!uncurry} but for a {!Tuple3}. ")
 let uncurry3: (('a, 'b, 'c) => 'd, ('a, 'b, 'c)) => 'd
-
