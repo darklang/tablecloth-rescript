@@ -1,151 +1,139 @@
-@@ocaml.text(" ")
+/** Functions for working with boolean values.
 
-@@ocaml.text(" Functions for working with boolean values.
+  Booleans in Rescript are represented by the `true` and `false` literals.
 
-    Booleans in Rescript are represented by the [true] and [false] literals.
+  Whilst a bool isnt a variant, you will get warnings if you haven't
+  exhaustively pattern match on them:
 
-    Whilst a bool isnt a variant, you will get warnings if you haven't
-    exhaustively pattern match on them:
+  ```rescript
+  let bool = false
+  let string = switch bool {
+  | false => "false"
+  }
 
-    {[
-      let bool = false
-      let string = switch bool {
-      | false => \"false\"
-      }
-
-      (*
-        Warning number 8
-        You forgot to handle a possible case here, for example: 
-        true
-      *)
-    ]}
-")
-
+  (*
+  Warning number 8
+  You forgot to handle a possible case here, for example: 
+  true
+  *)
+  ```
+*/
 type t = bool
 
-@@ocaml.text(" {1 Create} ")
+/** Convert an [Int](Int.mdx#) into a [Bool](Bool.mdx#).
 
-@ocaml.doc(" Convert an {!Int} into a {!Bool}.
+  ## Examples
 
-    {2 Examples}
-
-    {[
-      Bool.fromInt(0) == Some(false)
-      Bool.fromInt(1) == Some(true)
-      Bool.fromInt(8) == None
-      Bool.fromInt(-3) == None
-    ]}
-")
+  ```rescript
+  Bool.fromInt(0) == Some(false)
+  Bool.fromInt(1) == Some(true)
+  Bool.fromInt(8) == None
+  Bool.fromInt(-3) == None
+  ```
+*/
 let fromInt: int => option<bool>
 
-@ocaml.doc(" Convert a {!String} into a {!Bool}.
+/** Convert a [String](String.mdx#) into a [Bool](Bool.mdx#).
 
-    {2 Examples}
+  ## Examples
 
-    {[
-      Bool.fromString(\"true\") == Some(true)
-      Bool.fromString(\"false\") == Some(false)
-      Bool.fromString(\"True\") == None
-      Bool.fromString(\"False\") == None
-      Bool.fromString(\"0\") == None
-      Bool.fromString(\"1\") == None
-      Bool.fromString(\"Not even close\") == None
-    ]}
-")
+  ```rescript
+  Bool.fromString("true") == Some(true)
+  Bool.fromString("false") == Some(false)
+  Bool.fromString("True") == None
+  Bool.fromString("False") == None
+  Bool.fromString("0") == None
+  Bool.fromString("1") == None
+  Bool.fromString("Not even close") == None
+  ```
+*/
 let fromString: string => option<bool>
 
-@@ocaml.text(" {1 Basic operations} ")
+/** The exclusive or operator.
 
-@ocaml.doc(" The exclusive or operator.
+  Returns `true` if *exactly one* of its operands is `true`.
 
-    Returns [true] if {b exactly one} of its operands is [true].
+  ## Examples
 
-    {2 Examples}
-
-    {[
-      Bool.xor(true, true) == false
-      Bool.xor(true, false) == true
-      Bool.xor(false, true) == true
-      Bool.xor(false, false) == false
-    ]}
-")
+  ```rescript
+  Bool.xor(true, true) == false
+  Bool.xor(true, false) == true
+  Bool.xor(false, true) == true
+  Bool.xor(false, false) == false
+  ```
+*/
 let xor: (bool, bool) => bool
 
-@ocaml.doc(" Negate a [bool].
+/** Negate a `bool`.
 
-    {2 Examples}
+  ## Examples
 
-    {[
-      Bool.not(false) == true
-      Bool.not(true) == false
-    ]}
-")
+  ```rescript
+  Bool.not(false) == true
+  Bool.not(true) == false
+  ```
+*/
 let not: t => bool
 
-@ocaml.doc(" The logical conjunction [AND] operator.
+/** The logical conjunction `AND` operator.
 
-    Returns [true] if {b both} of its operands are [true].
-    If the 'left' operand evaluates to [false], the 'right' operand is not evaluated.
+  Returns `true` if *both* of its operands are `true`.
+  If the 'left' operand evaluates to `false`, the 'right' operand is not evaluated.
 
-    {2 Examples}
+  ## Examples
 
-    {[
-      Bool.and_(true, true) == true
-      Bool.and_(true, false) == false
-      Bool.and_(false, true) == false
-      Bool.and_(false, false) == false
-    ]}
-")
+  ```rescript
+  Bool.and_(true, true) == true
+  Bool.and_(true, false) == false
+  Bool.and_(false, true) == false
+  Bool.and_(false, false) == false
+  ```
+*/
 let and_: (bool, bool) => bool
 
-@@ocaml.text(" {1 Convert} ")
+/** Convert a `bool` to a [String](String.mdx#)
 
-@ocaml.doc(" Convert a [bool] to a {!String}
+  ## Examples
 
-    {2 Examples}
-
-    {[
-      Bool.toString(true) == \"true\"
-      Bool.toString(false) == \"false\"
-    ]}
-")
+  ```rescript
+  Bool.toString(true) == "true"
+  Bool.toString(false) == "false"
+  ```
+*/
 let toString: bool => string
 
-@ocaml.doc(" Convert a [bool] to an {!Int}.
+/** Convert a `bool` to an [Int](Int.mdx#).
 
-    {2 Examples}
+  ## Examples
 
-    {[
-      Bool.toInt(true) == 1
-      Bool.toInt(false) == 0
-    ]}
-")
+  ```rescript
+  Bool.toInt(true) == 1
+  Bool.toInt(false) == 0
+  ```
+*/
 let toInt: bool => int
 
-@@ocaml.text(" {1 Compare} ")
+/** Test for the equality of two `bool` values.
 
-@ocaml.doc(" Test for the equality of two [bool] values.
+  ## Examples
 
-    {2 Examples}
-
-    {[
-      Bool.equal(true, true) == true
-      Bool.equal(false, false) == true
-      Bool.equal(false, true) == false
-    ]}
-")
+  ```rescript
+  Bool.equal(true, true) == true
+  Bool.equal(false, false) == true
+  Bool.equal(false, true) == false
+  ```
+*/
 let equal: (bool, bool) => bool
 
-@ocaml.doc(" Compare two [bool] values.
+/** Compare two `bool` values.
 
-    {2 Examples}
+  ## Examples
 
-    {[
-      Bool.compare(true, false) == 1
-      Bool.compare(false, true) == -1
-      Bool.compare(true, true) == 0
-      Bool.compare(false, false) == 0
-    ]}
-")
+  ```rescript
+  Bool.compare(true, false) == 1
+  Bool.compare(false, true) == -1
+  Bool.compare(true, true) == 0
+  Bool.compare(false, false) == 0
+  ```
+*/
 let compare: (bool, bool) => int
-
