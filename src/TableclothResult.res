@@ -98,7 +98,7 @@ let toOption = r =>
   | Error(_) => None
   }
 
-let andThen = (t, ~f) => Belt.Result.flatMapU(t, f)
+let andThen = (t, ~f) => Belt.Result.flatMap(t, a => f(a))
 
 let attempt = f =>
   switch f() {

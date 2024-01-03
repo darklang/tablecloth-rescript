@@ -8,7 +8,7 @@ type t = char
 include TableclothComparator.Make({
   type t = t
 
-  let compare = compare
+  let compare = (a, b) => compare(a, b)
 })
 
 let toCode = (c: char) => Char.code(c)

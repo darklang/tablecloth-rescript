@@ -128,9 +128,9 @@ let findIndex = (array, ~f) => {
   loop(0)
 }
 
-let any = (t, ~f) => Belt.Array.someU(t, f)
+let any = (t, ~f) => Belt.Array.some(t, a => f(a))
 
-let all = (t, ~f) => Belt.Array.everyU(t, f)
+let all = (t, ~f) => Belt.Array.every(t, a => f(a))
 
 let includes = (t, v, ~equal) => any(t, ~f=a => equal(v, a))
 
