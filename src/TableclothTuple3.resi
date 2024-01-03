@@ -1,8 +1,7 @@
 /** Functions for manipulating trios of values */
 type t<'a, 'b, 'c> = ('a, 'b, 'c)
 
-/** # Create */
-/** Create a {!Tuple3}.
+/** Create a [Tuple3](Tuple3.mdx#).
 
   ## Examples
 
@@ -19,7 +18,7 @@ type t<'a, 'b, 'c> = ('a, 'b, 'c)
 */
 let make: ('a, 'b, 'c) => ('a, 'b, 'c)
 
-/** Create a tuple from the first two elements of an {!Array}.
+/** Create a tuple from the first two elements of an [Array](Array.mdx#).
 
   If the array is longer than three elements, the extra elements are ignored.
 
@@ -84,7 +83,7 @@ let second: (('a, 'b, 'c)) => 'b
 */
 let third: (('a, 'b, 'c)) => 'c
 
-/** Extract the first and second values of a {!Tuple3} as a {!Tuple2}.
+/** Extract the first and second values of a [Tuple3](Tuple3.mdx#) as a [Tuple2](Tuple2.mdx#).
 
   ## Examples
 
@@ -95,7 +94,7 @@ let third: (('a, 'b, 'c)) => 'c
 */
 let initial: (('a, 'b, 'c)) => ('a, 'b)
 
-/** Extract the second and third values of a {!Tuple3} as a {!Tuple2}.
+/** Extract the second and third values of a [Tuple3](Tuple3.mdx#) as a [Tuple2](Tuple2.mdx#).
 
   ## Examples
 
@@ -106,7 +105,6 @@ let initial: (('a, 'b, 'c)) => ('a, 'b)
 */
 let tail: (('a, 'b, 'c)) => ('b, 'c)
 
-/** {1 Modify} */
 /** Move each value in the tuple one position to the left, moving the value in the first position into the last position.
 
   ## Examples
@@ -161,7 +159,7 @@ let mapSecond: (('a, 'b, 'c), ~f: 'b => 'y) => ('a, 'y, 'c)
 */
 let mapThird: (('a, 'b, 'c), ~f: 'c => 'z) => ('a, 'b, 'z)
 
-/** Transform each value in a tuple by applying `f` to the {!first} value, [g] to the {!second} value and [h] to the {!third} value.
+/** Transform each value in a tuple by applying `f` to the [first](#first) value, `g` to the [second](#second) value and `h` to the [third](#third) value.
 
   ## Examples
 
@@ -178,7 +176,7 @@ let mapEach: (('a, 'b, 'c), ~f: 'a => 'x, ~g: 'b => 'y, ~h: 'c => 'z) => ('x, 'y
 
 /** Transform all the values of a tuple using the same function.
 
-  [mapAll] can only be used on tuples which have the same type for each value.
+  `mapAll` can only be used on tuples which have the same type for each value.
 
   ## Examples
 
@@ -215,7 +213,7 @@ let toArray: (('a, 'a, 'a)) => array<'a>
 */
 let toList: (('a, 'a, 'a)) => list<'a>
 
-/** Test two {!Tuple3}s for equality, using the provided functions to test the
+/** Test two [Tuple3](Tuple3.mdx#)s for equality, using the provided functions to test the
   first, second and third components.
 
   ## Examples
@@ -233,9 +231,9 @@ let equal: (
   ('c, 'c) => bool,
 ) => bool
 
-/** Compare two {!Tuple3}s, using `f` to compare the first
-  components then, if the first components are equal, the second components are compared with [g],
-  then the third components are compared with [h].
+/** Compare two [Tuple3](Tuple3.mdx#)s, using `f` to compare the first
+  components then, if the first components are equal, the second components are compared with `g`,
+  then the third components are compared with `h`.
 
   ## Examples
 

@@ -162,7 +162,7 @@ describe("filterMap", () =>
 )
 
 describe("flatMap", () =>
-  test("{!map} [f] onto an array and {!flatten} the resulting arrays", () =>
+  test("[map](#map) [f] onto an array and [flatten](#flatten) the resulting arrays", () =>
     expect(flatMap(~f=n => [n, n], [1, 2, 3]))->toEqual([1, 1, 2, 2, 3, 3])
   )
 )

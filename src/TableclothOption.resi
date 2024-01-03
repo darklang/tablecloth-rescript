@@ -1,6 +1,6 @@
 /** [Option](Option.mdx#) represents a value which may not be present.
 
-  It is a variant containing the [Some('a)] and `None` constructors
+  It is a variant containing the `Some('a)` and `None` constructors
 
   ```rescript
   type t<'a> =
@@ -8,7 +8,7 @@
   | None
   ```
 
-  Many other languages use [null] or [nil] to represent something similar.
+  Many other languages use `null` or `nil` to represent something similar.
 
   [Option](Option.mdx#) values are very common and they are used in a number of ways:
   - Initial values
@@ -17,15 +17,15 @@
   - Return values for functions that are not defined over their entire input range (partial functions).
   - Return value for otherwise reporting simple errors, where `None` is returned on error.
 
-  Lots of functions in [Tablecloth] return options, one you have one you can
+  Lots of functions in `Tablecloth` return options, one you have one you can
   work with the value it might contain by:
 
   - Pattern matching
-  - Using {!map} or {!andThen}
-  - Unwrapping it using {!unwrap}
-  - Converting a `None` into an exception using{!unwrapUnsafe}
+  - Using [map](#map) or [andThen](#andThen)
+  - Unwrapping it using [unwrap](#unwrap)
+  - Converting a `None` into an exception using[unwrapUnsafe](#unwrapUnsafe)
 
-  If the function you are writing can fail in a variety of ways, use a {!Result} instead to
+  If the function you are writing can fail in a variety of ways, use a [Result](Result.mdx#) instead to
   better communicate with the caller.
 
   If a function only fails in unexpected, unrecoverable ways, maybe you want raise exception.
@@ -36,9 +36,9 @@ type t<'a> = option<'a>
 
   In most situations you just want to use the `Some` constructor directly.
 
-  Note that when using the Rescript syntax you *can* use fast pipe ([->]) with variant constructors, so you don't need this function.
+  Note that when using the Rescript syntax you *can* use fast pipe (`->`) with variant constructors, so you don't need this function.
 
-  See the {{: https://rescript-lang.org/docs/manual/latest/pipe#pipe-into-variants} Reason docs } for more.
+  See the [Reason docs](https://rescript-lang.org/docs/manual/latest/pipe#pipe-into-variants) for more.
 
   ## Examples
 
@@ -51,9 +51,9 @@ let some: 'a => option<'a>
 
 /** Returns `None` if the first argument is `None`, otherwise return the second argument.
 
-  Unlike the built in [&&] operator, the [and_] function does not short-circuit.
+  Unlike the built in `&&` operator, the `and_` function does not short-circuit.
 
-  When you call [and_], both arguments are evaluated before being passed to the function.
+  When you call `and_`, both arguments are evaluated before being passed to the function.
 
   ## Examples
 
@@ -66,10 +66,10 @@ let some: 'a => option<'a>
 */
 let and_: (t<'a>, t<'a>) => t<'a>
 
-/** Return the first argument if it {!isSome}, otherwise return the second.
+/** Return the first argument if it [isSome](#isSome), otherwise return the second.
 
-  Unlike the built in [||] operator, the [or_] function does not short-circuit.
-  When you call [or_], both arguments are evaluated before being passed to the function.
+  Unlike the built in `||` operator, the `or_` function does not short-circuit.
+  When you call `or_`, both arguments are evaluated before being passed to the function.
 
   ## Examples
 
@@ -82,9 +82,9 @@ let and_: (t<'a>, t<'a>) => t<'a>
 */
 let or_: (t<'a>, t<'a>) => t<'a>
 
-/** Return the second argument if it {!isSome}, otherwise return the first.
+/** Return the second argument if it [isSome](#isSome), otherwise return the first.
 
-  Like {!or_} but in reverse. Useful when using the [|>] operator
+  Like [or_](#or_) but in reverse. Useful when using the `|>` operator
 
   ## Examples
 
@@ -97,7 +97,7 @@ let or_: (t<'a>, t<'a>) => t<'a>
 */
 let orElse: (t<'a>, t<'a>) => t<'a>
 
-/** Transform two options into an option of a {!Tuple2}.
+/** Transform two options into an option of a [Tuple2](Tuple2.mdx#).
 
   Returns None if either of the aguments is None.
 
@@ -184,9 +184,9 @@ let map2: (t<'a>, t<'b>, ~f: ('a, 'b) => 'c) => t<'c>
   Int.fromString(userInput)->Option.andThen(~f=toValidMonth)
   ```
 
-  If [Int.fromString] produces `None` (because the [userInput] was not an
+  If `Int.fromString` produces `None` (because the `userInput` was not an
   integer) this entire chain of operations will short-circuit and result in
-  `None`. If [toValidMonth] results in `None`, again the chain of
+  `None`. If `toValidMonth` results in `None`, again the chain of
   computations will result in `None`.
 
   ## Examples
@@ -198,12 +198,12 @@ let map2: (t<'a>, t<'b>, ~f: ('a, 'b) => 'c) => t<'c>
 */
 let andThen: (t<'a>, ~f: 'a => t<'b>) => t<'b>
 
-/** Unwrap an [option<'a>] returning [default] if called with `None`.
+/** Unwrap an `option<'a>` returning `default` if called with `None`.
 
-  This comes in handy when paired with functions like {!Map.get},
-  {!Array.first} or {!List.head} which return an [Option](Option.mdx#).
+  This comes in handy when paired with functions like [Map.get](Map.mdx#get),
+  [Array.first](Array.mdx#first) or [List.head](List.mdx#head) which return an [Option](Option.mdx#).
 
-  *Note:* This can be overused! Many cases are better handled using pattern matching, {!map} or {!andThen}.
+  *Note:* This can be overused! Many cases are better handled using pattern matching, [map](#map) or [andThen](#andThen).
 
   ## Examples
 
@@ -215,9 +215,9 @@ let andThen: (t<'a>, ~f: 'a => t<'b>) => t<'b>
 */
 let unwrap: (t<'a>, ~default: 'a) => 'a
 
-/** Unwrap an [option('a)] returning the enclosed ['a].
+/** Unwrap an `option<'a>` returning the enclosed `'a`.
 
-  *Note* in most situations it is better to use pattern matching, {!unwrap}, {!map} or {!andThen}.
+  *Note:* in most situations it is better to use pattern matching, [unwrap](#unwrap), [map](#map) or [andThen](#andThen).
   Can you structure your code slightly differently to avoid potentially raising an exception?
 
  ### Exceptions
@@ -259,7 +259,7 @@ let isSome: t<'a> => bool
 */
 let isNone: t<'a> => bool
 
-/** Run a function against an [Some(value)], ignores `None`s.
+/** Run a function against an `Some(value)`, ignores `None`s.
 
   ## Examples
 
@@ -270,7 +270,7 @@ let isNone: t<'a> => bool
 */
 let tap: (t<'a>, ~f: 'a => unit) => unit
 
-/** Convert an option to an {!Array}.
+/** Convert an option to an [Array](Array.mdx#).
 
   `None` is represented as an empty array and `Some` is represented as an array of one element.
 
@@ -296,7 +296,6 @@ let toArray: t<'a> => array<'a>
 */
 let toList: t<'a> => list<'a>
 
-/** {1 Compare} */
 /** Test two optional values for equality using the provided function.
 
   ## Examples

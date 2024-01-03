@@ -1,7 +1,6 @@
 /** Functions for manipulating pairs of values */
 type t<'a, 'b> = ('a, 'b)
 
-/** # Create */
 /** Create a two-tuple with the given values.
 
   The values do not have to be of the same type.
@@ -14,7 +13,7 @@ type t<'a, 'b> = ('a, 'b)
 */
 let make: ('a, 'b) => ('a, 'b)
 
-/** Create a tuple from the first two elements of an {!Array}.
+/** Create a tuple from the first two elements of an [Array](Array.mdx#).
 
   If the array is longer than two elements, the extra elements are ignored.
 
@@ -68,8 +67,7 @@ let first: (('a, 'b)) => 'a
 */
 let second: (('a, 'b)) => 'b
 
-/** # Transform */
-/** Transform the {!first} value in a tuple.
+/** Transform the [first](#first) value in a tuple.
 
   ## Examples
 
@@ -91,7 +89,7 @@ let mapFirst: (('a, 'b), ~f: 'a => 'x) => ('x, 'b)
 */
 let mapSecond: (('a, 'b), ~f: 'b => 'c) => ('a, 'c)
 
-/** Transform both values of a tuple, using `f` for the first value and [g] for the second.
+/** Transform both values of a tuple, using `f` for the first value and `g` for the second.
 
   ## Examples
 
@@ -126,8 +124,7 @@ let mapAll: (('a, 'a), ~f: 'a => 'b) => ('b, 'b)
 */
 let swap: (('a, 'b)) => ('b, 'a)
 
-/** # Convert */
-/** Turns a tuple into an {!Array} of length two.
+/** Turns a tuple into an [Array](Array.mdx#) of length two.
 
   This function can only be used on tuples which have the same type for each value.
 
@@ -151,7 +148,7 @@ let toArray: (('a, 'a)) => array<'a>
 */
 let toList: (('a, 'a)) => list<'a>
 
-/** Test two {!Tuple2}s for equality, using the provided functions to test the
+/** Test two [Tuple2](Tuple2.mdx#)s for equality, using the provided functions to test the
   first and second components.
 
   ## Examples
@@ -163,8 +160,8 @@ let toList: (('a, 'a)) => list<'a>
 */
 let equal: (t<'a, 'b>, t<'a, 'b>, ('a, 'a) => bool, ('b, 'b) => bool) => bool
 
-/** Compare two {!Tuple2}s, using the provided `f` function to compare the first components.
-  Then, if the first components are equal, the second components are compared with [g].
+/** Compare two [Tuple2](Tuple2.mdx#)s, using the provided `f` function to compare the first components.
+  Then, if the first components are equal, the second components are compared with `g`.
 
   ## Examples
 

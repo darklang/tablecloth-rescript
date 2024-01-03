@@ -1,11 +1,11 @@
 /** Immutable singly-linked list of elements which must have the same type.
-
+  You can create a [list] with the [list{1, 2, 3}] syntax.
   Lists can have any number of elements.
 
-  They are fast (O(1)) when:
-  - Getting the first element using {!head}
-  - Getting the {!tail}
-  - Creating a new list by adding an element to the front using {!cons}
+  They are fast `O(1)` when:
+  - Getting the first element using [head](#head)
+  - Getting the [tail](#tail)
+  - Creating a new list by adding an element to the front using [cons](#cons)
 
   They also support exhaustive pattern matching:
 
@@ -22,16 +22,12 @@
   - You need to access an element that isn't at the front of the list
   - Counting how many elements are in the list
 
-  As they have inefficent ([O(n)]) {!getAt} and {!length} operations.
+  As they have inefficent (`O(n)`) [getAt](#getAt) and [length](#length) operations.
 
-  If those are important to your use-case, perhaps you need an {!Array}.
+  If those are important to your use-case, perhaps you need an [Array](Array.mdx#).
 */
 type t<'a> = list<'a>
 
-/** # Create
-
-  You can create a [list] with the [list{1, 2, 3}] syntax.
-*/
 /** An empty list.
 
   ## Examples
@@ -54,7 +50,7 @@ let empty: t<'a>
 */
 let singleton: 'a => t<'a>
 
-/** Creates a list of length [times] with the value `x` populated at each index.
+/** Creates a list of length `times` with the value `x` populated at each index.
 
   ## Examples
 
@@ -80,7 +76,7 @@ let range: (~from: int=?, int) => t<int>
 
 /** Initialize a list.
 
-  [List.initialize(n, ~f)] creates a list of length `n` by setting the element at position `index` to be [f(index)].
+  `List.initialize(n, ~f)` creates a list of length `n` by setting the element at position `index` to be `f(index)`.
 
   ## Examples
 
@@ -91,7 +87,7 @@ let range: (~from: int=?, int) => t<int>
 */
 let initialize: (int, ~f: int => 'a) => t<'a>
 
-/** Create a list from an {!Array}.
+/** Create a list from an [Array](Array.mdx#).
 
   ## Examples
 
@@ -101,7 +97,6 @@ let initialize: (int, ~f: int => 'a) => t<'a>
 */
 let fromArray: array<'a> => t<'a>
 
-/** # Basic operations */
 /** Returns, as an [Option](Option.mdx#), the first element of a list.
 
   If the list is empty, returns `None`.
@@ -131,7 +126,7 @@ let tail: t<'a> => option<t<'a>>
 
 /** Prepend a value to the front of a list.
 
-  The spread syntax [...] operator can also be used.
+  The spread syntax `...` operator can also be used.
 
   ## Examples
 
@@ -145,11 +140,11 @@ let tail: t<'a> => option<t<'a>>
 */
 let cons: (t<'a>, 'a) => t<'a>
 
-/** Attempt to take the first [count] elements of a list.
+/** Attempt to take the first `count` elements of a list.
 
-   If the list has fewer than [count] elements, returns the entire list.
+   If the list has fewer than `count` elements, returns the entire list.
 
-   If count is zero or negative, returns [list{}].
+   If count is zero or negative, returns `list{}`.
 
    ## Examples
 
@@ -174,9 +169,9 @@ let take: (t<'a>, ~count: int) => t<'a>
 */
 let takeWhile: (t<'a>, ~f: 'a => bool) => t<'a>
 
-/** Drop the first [count] elements from the front of a list.
+/** Drop the first `count` elements from the front of a list.
 
-  If the list has fewer than [count] elements, returns [].
+  If the list has fewer than `count` elements, returns `list{}`.
 
   If count is zero or negative, returns the entire list.
 
@@ -248,7 +243,7 @@ let getAt: (t<'a>, ~index: int) => option<'a>
 
 /** Insert a new element at the specified index.
 
-  The element previously occupying `index` will now be at [index + 1]
+  The element previously occupying `index` will now be at `index + 1`
 
   If `index` is greater than then length of the list, it will be appended:
 
@@ -319,8 +314,8 @@ let reverse: t<'a> => t<'a>
 let sort: (t<'a>, ~compare: ('a, 'a) => int) => t<'a>
 
 /**
-  [List.sortBy(xs, ~f=fcn)] returns a new list sorted according to the values
-  returned by [fcn]. This is a stable sort: if two items have the same value,
+  `List.sortBy(xs, ~f=fcn)` returns a new list sorted according to the values
+  returned by `fcn`. This is a stable sort: if two items have the same value,
   they will appear in the same order that they appeared in the original list.
   ```rescript
   List.sortBy(list{3, 2, 5, -2, 4}, ~f=x => x * x) == list{2, -2, 3, 4, 5}
@@ -328,7 +323,6 @@ let sort: (t<'a>, ~compare: ('a, 'a) => int) => t<'a>
 */
 let sortBy: (t<'a>, ~f: 'a => 'b) => t<'a>
 
-/** # Query */
 /** Determine if a list is empty.
 
   ## Examples
@@ -343,9 +337,9 @@ let isEmpty: t<_> => bool
 
 /** Return the number of elements in a list.
 
-  *Warning* [List.length] needs to access the *entire* list in order to calculate its result.
+  *Warning* `List.length` needs to access the *entire* list in order to calculate its result.
 
-  If you need fast access to the length, perhaps you need an {!Array}.
+  If you need fast access to the length, perhaps you need an [Array](Array.mdx#).
 
   A common mistake is to have something like the following:
 
@@ -424,11 +418,11 @@ let all: (t<'a>, ~f: 'a => bool) => bool
 let count: (t<'a>, ~f: 'a => bool) => int
 
 /**
-   [List.uniqueBy(xs, ~f=fcn)] returns a new list containing only those elements from [xs]
-   that have a unique value when [fcn] is applied to them.
+   `List.uniqueBy(xs, ~f=fcn)` returns a new list containing only those elements from `xs`
+   that have a unique value when `fcn` is applied to them.
 
-   The function [fcn] takes as its single parameter an item from the list
-   and returns a [string]. If the function generates the same string for two or more
+   The function `fcn` takes as its single parameter an item from the list
+   and returns a `string`. If the function generates the same string for two or more
    list items, only the first of them is retained.
 
    ## Examples
@@ -441,7 +435,7 @@ let count: (t<'a>, ~f: 'a => bool) => int
  */
 let uniqueBy: (list<'a>, ~f: 'a => string) => list<'a>
 
-/** Returns, as an [option], the first element for which `f` evaluates to true.
+/** Returns, as an `option`, the first element for which `f` evaluates to true.
 
   If `f` doesn't return `true` for any of the elements `find` will return `None`.
 
@@ -457,7 +451,7 @@ let find: (t<'a>, ~f: 'a => bool) => option<'a>
 
 /** Returns, as an option, a tuple of the first element and its index for which `f` evaluates to true.
 
-  If `f` doesnt return `true` for any [(index, element)] pair, returns `None`.
+  If `f` doesnt return `true` for any `(index, element)` pair, returns `None`.
 
   ## Examples
 
@@ -470,10 +464,10 @@ let find: (t<'a>, ~f: 'a => bool) => option<'a>
 */
 let findIndex: (t<'a>, ~f: (int, 'a) => bool) => option<(int, 'a)>
 
-/** Test if a list contains the specified element using the provided [equal] to test for equality.
+/** Test if a list contains the specified element using the provided `equal` to test for equality.
 
   This function may iterate the entire list, so if your code needs to
-  repeatedly perform this check, maybe you want a {!Set} instead.
+  repeatedly perform this check, maybe you want a [Set](Set.mdx#) instead.
 
   ## Examples
 
@@ -486,14 +480,14 @@ let findIndex: (t<'a>, ~f: (int, 'a) => bool) => option<(int, 'a)>
 let includes: (t<'a>, 'a, ~equal: ('a, 'a) => bool) => bool
 
 /**
-  [List.minimumBy(xs, ~f=fcn)], when given a non-empty list, returns the item in the list
-  for which [fcn item] is a minimum. It is returned as [Some(item)].
+  `List.minimumBy(xs, ~f=fcn)`, when given a non-empty list, returns the item in the list
+  for which `fcn item` is a minimum. It is returned as `Some(item)`.
 
-  If given an empty list, [List.minimumBy] returns `None`. If more than one value has
-  a minimum value for [fcn item], the first one is returned.
+  If given an empty list, `List.minimumBy` returns `None`. If more than one value has
+  a minimum value for `fcn(item)`, the first one is returned.
 
   The function provided takes a list item as its parameter and must return a value
-  that can be compared: for example, a [string] or [int].
+  that can be compared: for example, a `string` or `int`.
 
   ## Examples
 
@@ -507,14 +501,14 @@ let includes: (t<'a>, 'a, ~equal: ('a, 'a) => bool) => bool
 let minimumBy: (~f: 'a => 'comparable, list<'a>) => option<'a>
 
 /**
-   [List.maximumBy ~f:fcn xs], when given a non-empty list, returns the item in the list
-   for which [fcn item] is a maximum. It is returned as [Some item].
+   `List.maximumBy(~f:fcn, xs)`, when given a non-empty list, returns the item in the list
+   for which `fcn(item)` is a maximum. It is returned as `Some(item)`.
 
-   If given an empty list, [List.maximumBy] returns `None`. If more than one value
-   has a maximum value for [fcn item], the first one is returned.
+   If given an empty list, `List.maximumBy` returns `None`. If more than one value
+   has a maximum value for `fcn(item)`, the first one is returned.
 
    The function provided takes a list item as its parameter and must return a value
-   that can be compared: for example, a [string] or [int].
+   that can be compared: for example, a `string` or `int`.
 
    ## Examples
 
@@ -551,7 +545,7 @@ let minimum: (t<'a>, ~compare: ('a, 'a) => int) => option<'a>
 */
 let maximum: (t<'a>, ~compare: ('a, 'a) => int) => option<'a>
 
-/** Find a {!Tuple2} of the [(minimum, maximum)] elements using the provided `compare` function.
+/** Find a [Tuple2](Tuple2.mdx#) of the `(minimum, maximum)` elements using the provided `compare` function.
 
   Returns `None` if called on an empty list.
 
@@ -585,7 +579,6 @@ let extent: (t<'a>, ~compare: ('a, 'a) => int) => option<('a, 'a)>
 */
 let sum: (t<'a>, module(TableclothContainer.Sum with type t = 'a)) => 'a
 
-/** # Transform */
 /** Create a new list which is the result of applying a function `f` to every element.
 
   ## Examples
@@ -618,17 +611,17 @@ let mapWithIndex: (t<'a>, ~f: (int, 'a) => 'b) => t<'b>
 */
 let filter: (t<'a>, ~f: 'a => bool) => t<'a>
 
-/** Like {!filter} but `f` is also called with each elements index. */
+/** Like [filter](#filter) but `f` is also called with each elements index. */
 let filterWithIndex: (t<'a>, ~f: (int, 'a) => bool) => t<'a>
 
-/** Allows you to combine {!map} and {!filter} into a single pass.
+/** Allows you to combine [map](#map) and [filter](#filter) into a single pass.
 
   The output list only contains elements for which `f` returns `Some`.
 
-  Why [filterMap] and not just {!filter} then {!map}?
+  Why `filterMap` and not just [filter](#filter) then [map](#map)?
 
-  {!filterMap} removes the [Option](Option.mdx#) layer automatically.
-  If your mapping is already returning an [Option](Option.mdx#) and you want to skip over `None`s, then [filterMap] is much nicer to use.
+  [filterMap](#filterMap) removes the [Option](Option.mdx#) layer automatically.
+  If your mapping is already returning an [Option](Option.mdx#) and you want to skip over `None`s, then `filterMap` is much nicer to use.
 
   ## Examples
 
@@ -643,7 +636,7 @@ let filterWithIndex: (t<'a>, ~f: (int, 'a) => bool) => t<'a>
 */
 let filterMap: (t<'a>, ~f: 'a => option<'b>) => t<'b>
 
-/** Apply a function `f` onto a list and {!flatten} the resulting list of lists.
+/** Apply a function `f` onto a list and [flatten](#flatten) the resulting list of lists.
 
   ## Examples
 
@@ -675,7 +668,7 @@ let flatMap: (t<'a>, ~f: 'a => t<'b>) => t<'b>
   + [accumulator: 1, element: 2, result: 3]
   + [accumulator: 3, element: 3, result: 6]
 
-  And so the final result is [6]. (Note that in this case you probably want to use {!List.sum})
+  And so the final result is `6`. (Note that in this case you probably want to use [List.sum](List.mdx#sum))
 
   *Examples continued*
 
@@ -694,12 +687,9 @@ let flatMap: (t<'a>, ~f: 'a => t<'b>) => t<'b>
 */
 let fold: (t<'a>, ~initial: 'b, ~f: ('b, 'a) => 'b) => 'b
 
-@ocaml.doc(
-  " This method is like {!fold} except that it iterates over the elements of the list from last to first. "
-)
+/** This method is like [fold](#fold) except that it iterates over the elements of the list from last to first. */
 let foldRight: (t<'a>, ~initial: 'b, ~f: ('b, 'a) => 'b) => 'b
 
-/** {1 Combine} */
 /** Creates a new list which is the result of appending the second list onto the end of the first.
 
   ## Examples
@@ -722,11 +712,11 @@ let append: (t<'a>, t<'a>) => t<'a>
 */
 let flatten: t<t<'a>> => t<'a>
 
-/** Combine two lists by merging each pair of elements into a {!Tuple2}.
+/** Combine two lists by merging each pair of elements into a [Tuple2](Tuple2.mdx#).
 
   If one list is longer, the extra elements are dropped.
 
-  The same as [List.map2(~f=Tuple2.make)].
+  The same as `List.map2(~f=Tuple2.make)`.
 
   ## Examples
 
@@ -771,8 +761,7 @@ let map2: (t<'a>, t<'b>, ~f: ('a, 'b) => 'c) => t<'c>
 */
 let map3: (t<'a>, t<'b>, t<'c>, ~f: ('a, 'b, 'c) => 'd) => t<'d>
 
-/** # Deconstruct */
-/** Split a list into a {!Tuple2} of lists. Values which `f` returns true for will end up in {!Tuple2.first}.
+/** Split a list into a [Tuple2](Tuple2.mdx#) of lists. Values which `f` returns true for will end up in [Tuple2.first](Tuple2.mdx#first).
 
   ## Examples
 
@@ -782,7 +771,7 @@ let map3: (t<'a>, t<'b>, t<'c>, ~f: ('a, 'b, 'c) => 'd) => t<'d>
 */
 let partition: (t<'a>, ~f: 'a => bool) => (t<'a>, t<'a>)
 
-/** Divides a list into a {!Tuple2} of lists.
+/** Divides a list into a [Tuple2](Tuple2.mdx#) of lists.
 
   Elements which have index upto (but not including) `index` will be in the first component of the tuple.
 
@@ -802,7 +791,7 @@ let partition: (t<'a>, ~f: 'a => bool) => (t<'a>, t<'a>)
 */
 let splitAt: (t<'a>, ~index: int) => (t<'a>, t<'a>)
 
-/** Divides a list into a {!Tuple2} at the first element where function `f` will return `true`.
+/** Divides a list into a [Tuple2](Tuple2.mdx#) at the first element where function `f` will return `true`.
 
   Elements up to (but not including) the first element `f` returns `true` for
   will be in the first component of the tuple, the remaining elements will be
@@ -817,7 +806,7 @@ let splitAt: (t<'a>, ~index: int) => (t<'a>, t<'a>)
 */
 let splitWhen: (t<'a>, ~f: 'a => bool) => (t<'a>, t<'a>)
 
-/** Decompose a list of {!Tuple2} into a {!Tuple2} of lists.
+/** Decompose a list of [Tuple2](Tuple2.mdx#) into a [Tuple2](Tuple2.mdx#) of lists.
 
   ## Examples
 
@@ -828,10 +817,9 @@ let splitWhen: (t<'a>, ~f: 'a => bool) => (t<'a>, t<'a>)
 */
 let unzip: t<('a, 'b)> => (t<'a>, t<'b>)
 
-/** # Iterate */
 /** Iterates over the elements of invokes `f` for each element.
 
-  The function you provide must return [unit], and the [forEach] call itself also returns [unit].
+  The function you provide must return `unit`, and the `forEach` call itself also returns `unit`.
 
   You use [List.forEach] when you want to process a list only for side effects.
 
@@ -849,7 +837,7 @@ let unzip: t<('a, 'b)> => (t<'a>, t<'b>)
 */
 let forEach: (t<'a>, ~f: 'a => unit) => unit
 
-/** Like {!forEach} but `f` is also called with the elements index.
+/** Like [forEach](#forEach) but `f` is also called with the elements index.
 
   ## Examples
 
@@ -933,7 +921,6 @@ let sliding: (~step: int=?, t<'a>, ~size: int) => t<t<'a>>
 */
 let groupWhile: (t<'a>, ~f: ('a, 'a) => bool) => t<t<'a>>
 
-/** # Convert */
 /** Converts a list of strings into a [String](String.mdx#), placing `sep` between each string in the result.
 
   ## Examples
@@ -962,10 +949,9 @@ let groupBy: (
   ~f: 'value => 'key,
 ) => TableclothMap.t<'key, list<'value>, 'id>
 
-/** Converts a list to an {!Array}. */
+/** Converts a list to an [Array](Array.mdx#). */
 let toArray: t<'a> => array<'a>
 
-/** {1 Compare} */
 /** Test two lists for equality using the provided function to test elements. */
 let equal: (t<'a>, t<'a>, ('a, 'a) => bool) => bool
 

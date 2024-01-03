@@ -1,16 +1,13 @@
-/** Functions for working with ["strings"] */
+/** Functions for working with `"strings"`
+  Strings literals are created with the `"double quotes"`, `` `backticks` `` syntax.
+  ~Warning~ If string contains non-ASCII characters, use `` `backticks` ``
+ */
 type t = string
 
-/** # Create
-
-  Strings literals are created with the ["double quotes"], [`backticks`] syntax.
-  *Warning* If string contains non-ASCII characters, use [`backticks`]
-
-*/
 /** Converts the given character to an equivalent string of length one. */
 let fromChar: char => string
 
-/** Create a string from an {!Array} of characters.
+/** Create a string from an [Array](Array.mdx#) of characters.
 
   Note that these must be individual characters in single quotes, not strings of length one.
 
@@ -36,11 +33,11 @@ let fromArray: array<char> => string
 */
 let fromList: list<char> => string
 
-/** Create a string by repeating a string [count] time.
+/** Create a string by repeating a string `count` time.
 
  ### Exceptions
 
-  If [count] is negative, [String.repeat] throws a [RangeError] exception.
+  If `count` is negative, [String.repeat] throws a [RangeError] exception.
 
   ## Examples
 
@@ -64,13 +61,12 @@ let repeat: (string, ~count: int) => string
 */
 let initialize: (int, ~f: int => char) => string
 
-/** # Basic operations */
 /** Get the character at the specified index 
 
  ### Exceptions
 
   If index out of range, throws a `Invalid_argument` exception.
-  Concider using {!getAt}, it returns an [option<char>]
+  Concider using [getAt](#getAt), it returns an `option<char>`
 
   ## Examples
 
@@ -81,7 +77,7 @@ let initialize: (int, ~f: int => char) => string
 */
 let get: (string, int) => char
 
-/** Get the character at [~index] */
+/** Get the character at `~index` */
 let getAt: (string, ~index: int) => option<char>
 
 /** Reverse a string
@@ -96,11 +92,10 @@ let reverse: string => string
 
 /** Extract a substring from the specified indicies.
 
-  See {!Array.slice}.
+  See [Array.slice](Array.mdx#slice).
 */
 let slice: (~to_: int=?, string, ~from: int) => string
 
-/** # Query */
 /** Check if a string is empty */
 let isEmpty: string => bool
 
@@ -114,7 +109,7 @@ let isEmpty: string => bool
 */
 let length: string => int
 
-/** See if the string starts with [prefix].
+/** See if the string starts with `~prefix`.
 
   ## Examples
 
@@ -125,7 +120,7 @@ let length: string => int
 */
 let startsWith: (string, ~prefix: string) => bool
 
-/** See if the string ends with [suffix].
+/** See if the string ends with `~suffix`.
 
   ## Examples
 
@@ -159,7 +154,7 @@ let includes: (string, ~substring: string) => bool
 */
 let isCapitalized: string => bool
 
-/** Drop [count] characters from the left side of a string.
+/** Drop `count` characters from the left side of a string.
 
   ## Examples
 
@@ -173,7 +168,7 @@ let isCapitalized: string => bool
 */
 let dropLeft: (string, ~count: int) => string
 
-/** Drop [count] characters from the right side of a string.
+/** Drop `count` characters from the right side of a string.
 
   ## Examples
 
@@ -187,7 +182,7 @@ let dropLeft: (string, ~count: int) => string
 */
 let dropRight: (string, ~count: int) => string
 
-/** Returns the index of the first occurrence of [string] or None if string has no occurences of [string]
+/** Returns the index of the first occurrence of `string` or None if string has no occurences of `string`
 
   ## Examples
 
@@ -198,7 +193,7 @@ let dropRight: (string, ~count: int) => string
 */
 let indexOf: (string, string) => option<int>
 
-/** Returns the index of the last occurrence of [string] or None if string has no occurences of [string]
+/** Returns the index of the last occurrence of `string` or None if string has no occurences of `string`
 
   ## Examples
 
@@ -256,7 +251,7 @@ let toUppercase: string => string
 */
 let uncapitalize: string => string
 
-/** Converts the first letter of [s] to lowercase if it is upper case.
+/** Converts the first letter of `s` to lowercase if it is upper case.
 
   ## Examples
 
@@ -266,7 +261,7 @@ let uncapitalize: string => string
 */
 let capitalize: string => string
 
-/** Removes leading and trailing {{!Char.isWhitespace} whitespace} from a string
+/** Removes leading and trailing [whitespace](Char.mdx#isWhitespace) from a string
 
   ## Examples
 
@@ -278,15 +273,15 @@ let capitalize: string => string
 */
 let trim: string => string
 
-/** Like {!trim} but only drops characters from the beginning of the string. */
+/** Like [trim](#trim) but only drops characters from the beginning of the string. */
 let trimLeft: string => string
 
-/** Like {!trim} but only drops characters from the end of the string. */
+/** Like [trim](#trim) but only drops characters from the end of the string. */
 let trimRight: string => string
 
 /** Pad a string up to a minimum length.
 
-  If the string is shorted than the proivded length, adds [with_]
+  If the string is shorted than the proivded length, adds `with_`
   to the left of the string until the minimum length is met.
 
   ## Examples
@@ -299,7 +294,7 @@ let padLeft: (string, int, ~with_: string) => string
 
 /** Pad a string up to a minimum length.
 
-  If the string is shorted than the proivded length, adds [with_]
+  If the string is shorted than the proivded length, adds `with_`
   to the left of the string until the minimum length is met.
 
   ## Examples
@@ -310,7 +305,7 @@ let padLeft: (string, int, ~with_: string) => string
 */
 let padRight: (string, int, ~with_: string) => string
 
-/** Returns, as an [Option](Option.mdx#), a tuple containing the first {!Char} and the remaining String.
+/** Returns, as an [Option](Option.mdx#), a tuple containing the first [Char](Char.mdx#) and the remaining String.
 
   If given an empty string, returns `None`.
 
@@ -324,7 +319,7 @@ let padRight: (string, int, ~with_: string) => string
 */
 let uncons: string => option<(char, string)>
 
-/** Divide a string into a list of strings, splitting whenever [on] is encountered.
+/** Divide a string into a list of strings, splitting whenever `on` is encountered.
 
   ## Examples
 
@@ -338,15 +333,13 @@ let uncons: string => option<(char, string)>
 */
 let split: (string, ~on: string) => list<string>
 
-/** # Iterate */
 /** Run `f` on each character in a string. */
 let forEach: (string, ~f: char => unit) => unit
 
-/** Like {!Array.fold} but the elements are {!Char}s  */
+/** Like [Array.fold](Array.mdx#fold) but the elements are [Char](Char.mdx#)s  */
 let fold: (string, ~initial: 'a, ~f: ('a, char) => 'a) => 'a
 
-/** # Convert */
-/** Returns an {!Array} of the individual characters in the given string.
+/** Returns an [Array](Array.mdx#) of the individual characters in the given string.
 
   ## Examples
 
@@ -368,13 +361,12 @@ let toArray: string => array<char>
 */
 let toList: string => list<char>
 
-/** {1 Compare} */
 /** Test two string for equality. */
 let equal: (string, string) => bool
 
 /** Compare two strings. Strings use 'dictionary' ordering.
-1
-  Also known as {{: https://en.wikipedia.org/wiki/Lexicographical_order } lexicographical ordering }.
+
+  Also known as [ lexicographical ordering ](https://en.wikipedia.org/wiki/Lexicographical_order).
 
   ## Examples
 
@@ -387,7 +379,7 @@ let equal: (string, string) => bool
 */
 let compare: (string, string) => int
 
-/** The unique identity for {!Comparator} */
+/** The unique identity for [Comparator](Comparator.mdx#) */
 type identity
 
 let comparator: TableclothComparator.t<t, identity>

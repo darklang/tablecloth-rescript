@@ -1,6 +1,6 @@
-/** A module for working with {{: https://en.wikipedia.org/wiki/Floating-point_arithmetic } floating-point numbers}.
+/** A module for working with [ floating-point numbers](https://en.wikipedia.org/wiki/Floating-point_arithmetic).
 
-  Valid syntax for [float]s includes:
+  Valid syntax for `float`s includes:
   ```rescript
   0.
   42.
@@ -14,24 +14,23 @@
   1e3  // = (1 * 10 ** 3) = 1000.
    ```
 
-  *Historical Note: * The particular details of floats (e.g. [NaN]) are
-  specified by {{: https://en.wikipedia.org/wiki/IEEE_754 } IEEE 754 } which is literally hard-coded into almost all
+  *Historical Note: * The particular details of floats (e.g. `NaN`) are
+  specified by [ IEEE 754 ](https://en.wikipedia.org/wiki/IEEE_754) which is literally hard-coded into almost all
   CPUs in the world.
 */
 type t = float
 
-/** {1 Constants} */
-/** The literal [0.0] as a named value. */
+/** The literal `0.0` as a named value. */
 let zero: t
 
-/** The literal [1.0] as a named value. */
+/** The literal `1.0` as a named value. */
 let one: t
 
-/** [NaN] as a named value. NaN stands for {{: https://en.wikipedia.org/wiki/NaN } not a number}.
+/** `NaN` as a named value. NaN stands for [ not a number](https://en.wikipedia.org/wiki/NaN).
 
-  *Note * comparing values with {!Float.nan} will *always return * `false` even if the value you are comparing against is also [NaN].
+  *Note:* comparing values with [Float.nan](Float.mdx#nan) will *always return* `false` even if the value you are comparing against is also `NaN`.
 
-  For detecting [NaN] you should use {!Float.isNaN}
+  For detecting `NaN` you should use [Float.isNaN](Float.mdx#isNaN)
 
   ## Examples
 
@@ -43,7 +42,7 @@ let one: t
 */
 let nan: t
 
-/** Positive {{: https://en.wikipedia.org/wiki/IEEE_754-1985#Positive_and_negative_infinity } infinity}.
+/** Positive [ infinity](https://en.wikipedia.org/wiki/IEEE_754-1985#Positive_and_negative_infinity).
 
   ```rescript
   Float.divide(Float.pi, ~by=0.0) == Float.infinity
@@ -51,54 +50,51 @@ let nan: t
 */
 let infinity: t
 
-/** Negative infinity, see {!Float.infinity}. */
+/** Negative infinity, see [Float.infinity](Float.mdx#infinity). */
 let negativeInfinity: t
 
-@ocaml.doc(
-  " An approximation of {{: https://en.wikipedia.org/wiki/E_(mathematical_constant) } Euler's number}. "
-)
+/** An approximation of [ Euler's number](https://en.wikipedia.org/wiki/E_(mathematical_constant)). */
 let e: t
 
-/** An approximation of {{: https://en.wikipedia.org/wiki/Pi } pi}. */
+/** An approximation of [ pi](https://en.wikipedia.org/wiki/Pi). */
 let pi: t
 
 /** The smallest interval between two representable numbers. */
 let epsilon: t
 
-/** The largest (furthest from zero) representable positive [float].
-  Has a value of approximately [1.79E+308], or 1.7976931348623157 * 10^308.
-  Values larger than [largestValue] are represented as Infinity.
+/** The largest (furthest from zero) representable positive `float`.
+  Has a value of approximately `1.79E+308`, or 1.7976931348623157 * 10^308.
+  Values larger than `largestValue` are represented as Infinity.
 */
 let largestValue: t
 
-/** The smallest representable positive [float].
+/** The smallest representable positive `float`.
   The closest to zero without actually being zero.
-  Has a value of approximately [5E-324], in browsers and in Node.js is 2^-1074
+  Has a value of approximately `5E-324`, in browsers and in Node.js is 2^-1074
   */
 let smallestValue: t
 
 /** Represents the maximum safe integer in JS. [Number]s in JS are represented as a 64-bit floating point
-  {{: https://en.wikipedia.org/wiki/IEEE_754 } IEEE 754 } numbers.
-  [maximumSafeInteger] has a value of 2^53 - 1 === [9_007_199_254_740_991.0].
+  [ IEEE 754 ](https://en.wikipedia.org/wiki/IEEE_754) numbers.
+  `maximumSafeInteger` has a value of 2^53 - 1 === `9_007_199_254_740_991.0`.
   Values larger cannot be represented exactly and cannot be correctly compared.
 
-  Defined as Float since integers in Rescript are limited to 32-bits, their max value is 2^31 - 1 === [2_147_483_647]
-  See also: {!Int.maximumValue}
+  Defined as Float since integers in Rescript are limited to 32-bits, their max value is 2^31 - 1 === `2_147_483_647`
+  See also: [Int.maximumValue](Int.mdx#maximumValue)
 */
 let maximumSafeInteger: t
 
 /** Represents the minimum safe integer in JS. [Number]s in JS are represented as a 64-bit floating point
-  {{: https://en.wikipedia.org/wiki/IEEE_754 } IEEE 754 } numbers.
-  [minimumSafeInteger] has a value of -2^53 - 1 === [-9_007_199_254_740_991.0].
+  [ IEEE 754 ](https://en.wikipedia.org/wiki/IEEE_754) numbers.
+  `minimumSafeInteger` has a value of -2^53 - 1 === `-9_007_199_254_740_991.0`.
   Values larger cannot be represented exactly and cannot be correctly compared.
 
-  Defined as Float since Rescript integers are limited to 32-bits, their min value is -2^31 - 1 === [-2_147_483_647]
-  See also: {!Int.minimumValue}
+  Defined as Float since Rescript integers are limited to 32-bits, their min value is -2^31 - 1 === `-2_147_483_647`
+  See also: [Int.minimumValue](Int.mdx#minimumValue)
 */
 let minimumSafeInteger: t
 
-/** # Create */
-/** Convert an {!Int} to a [float].
+/** Convert an [Int](Int.mdx#) to a `float`.
 
   ## Examples
 
@@ -110,9 +106,8 @@ let minimumSafeInteger: t
 */
 let fromInt: int => t
 
-/** Convert a [String](String.mdx#) to a [float].
-  The behaviour of this function is platform specific.
-  Parses [Infinity] case-sensitive, [NaN] is case-insensitive.
+/** Convert a [String](String.mdx#) to a `float`.
+  Parses `Infinity` case-sensitive, `NaN` is case-insensitive.
 
   ## Examples
 
@@ -127,22 +122,21 @@ let fromInt: int => t
 */
 let fromString: string => option<t>
 
-/** {1 Basic arithmetic and operators} */
 /** Addition for floating point numbers.
 
-  Although [int]s and [float]s support many of the same basic operations such as
-  addition and subtraction you *cannot* `add` an [int] and a [float] directly which
-  means you need to use functions like {!Int.toFloat} to convert both values to the same type.
+  Although `int`s and `float`s support many of the same basic operations such as
+  addition and subtraction you *cannot* `add` an `int` and a `float` directly which
+  means you need to use functions like [Int.toFloat](Int.mdx#toFloat) to convert both values to the same type.
 
-  So if you needed to add a {!Array.length} to a [float] for some reason, you
+  So if you needed to add a [Array.length](Array.mdx#length) to a `float` for some reason, you
   could:
 
   ```rescript
   [1, 2, 3]->Array.length->Int.toFloat->Float.add(3.5) == 6.5
   ```
 
-  Languages like Java and JavaScript automatically convert [int] values
-  to [float] values when you mix and match. This can make it difficult to be sure
+  Languages like Java and JavaScript automatically convert `int` values
+  to `float` values when you mix and match. This can make it difficult to be sure
   exactly what type of number you are dealing with and cause unexpected behavior.
 
   Rescript has opted for a design that makes all conversions explicit.
@@ -200,7 +194,7 @@ let divide: (t, ~by: t) => t
 */
 let power: (~base: t, ~exponent: t) => t
 
-/** Flips the 'sign' of a [float] so that positive floats become negative and negative integers become positive. Zero stays as it is.
+/** Flips the 'sign' of a `float` so that positive floats become negative and negative integers become positive. Zero stays as it is.
 
   ## Examples
 
@@ -212,7 +206,7 @@ let power: (~base: t, ~exponent: t) => t
 */
 let negate: t => t
 
-/** Get the {{: https://en.wikipedia.org/wiki/Absolute_value } absolute value} of a number.
+/** Get the [ absolute value](https://en.wikipedia.org/wiki/Absolute_value) of a number.
 
   ## Examples
 
@@ -224,9 +218,9 @@ let negate: t => t
 */
 let absolute: t => t
 
-/** Returns the larger of two [float]s, if both arguments are equal, returns the first argument
+/** Returns the larger of two `float`s, if both arguments are equal, returns the first argument
 
-  If either (or both) of the arguments are [NaN], returns [NaN]
+  If either (or both) of the arguments are `NaN`, returns `NaN`
 
   ## Examples
 
@@ -238,9 +232,9 @@ let absolute: t => t
 */
 let maximum: (t, t) => t
 
-/** Returns the smaller of two [float]s, if both arguments are equal, returns the first argument.
+/** Returns the smaller of two `float`s, if both arguments are equal, returns the first argument.
 
-  If either (or both) of the arguments are [NaN], returns [NaN].
+  If either (or both) of the arguments are `NaN`, returns `NaN`.
 
   ## Examples
 
@@ -252,11 +246,11 @@ let maximum: (t, t) => t
 */
 let minimum: (t, t) => t
 
-/** Clamps `n` within the inclusive [lower] and [upper] bounds.
+/** Clamps `n` within the inclusive `lower` and `upper` bounds.
 
  ### Exceptions
 
-  Throws an `Invalid_argument` exception if [lower > upper].
+  Throws an `Invalid_argument` exception if `lower > upper`.
 
   ## Examples
 
@@ -268,10 +262,9 @@ let minimum: (t, t) => t
 */
 let clamp: (t, ~lower: t, ~upper: t) => t
 
-/** {1 Fancier math} */
 /** Take the square root of a number.
 
-  [squareRoot] returns [NaN] when its argument is negative. See {!Float.nan} for more.
+  `squareRoot` returns `NaN` when its argument is negative. See [Float.nan](Float.mdx#nan) for more.
 
   ## Examples
 
@@ -293,10 +286,9 @@ let squareRoot: t => t
 */
 let log: (t, ~base: t) => t
 
-/** # Query */
-/** Determine whether a [float] is an [undefined] or unrepresentable number.
+/** Determine whether a `float` is an `undefined` or unrepresentable number.
 
-  *Note: * this function is more useful than it might seem since [NaN] *does not * equal [NaN]:
+  *Note:* this function is more useful than it might seem since `NaN` *does not* equal `NaN`:
 
   ```rescript
   (Float.nan == Float.nan) == false
@@ -313,9 +305,9 @@ let log: (t, ~base: t) => t
 */
 let isNaN: t => bool
 
-/** Determine whether a float is finite number. True for any float except [Infinity], [-Infinity] or [NaN]
+/** Determine whether a float is finite number. True for any float except `Infinity`, `-Infinity` or `NaN`
 
-  Notice that [NaN] is not finite!
+  Notice that `NaN` is not finite!
 
   ## Examples
 
@@ -354,7 +346,7 @@ let isInfinite: t => bool
 */
 let isInteger: t => bool
 
-/** Determine whether the passed value is a safe integer (number between -(2**53 - 1) and 2**53 - 1).
+/** Determine whether the passed value is a safe integer (number between -(2^53 - 1) and 2^53 - 1).
 
   ## Examples
 
@@ -366,13 +358,13 @@ let isInteger: t => bool
 */
 let isSafeInteger: t => bool
 
-/** Checks if a float is between [lower] and up to, but not including, [upper].
+/** Checks if a float is between `lower` and up to, but not including, `upper`.
 
-  If [lower] is not specified, it's set to to [0.0].
+  If `lower` is not specified, it's set to to `0.0`.
 
  ### Exceptions
 
-  Throws an `Invalid_argument` exception if [lower > upper]
+  Throws an `Invalid_argument` exception if `lower > upper`
 
   ## Examples
 
@@ -384,7 +376,6 @@ let isSafeInteger: t => bool
 */
 let inRange: (t, ~lower: t, ~upper: t) => bool
 
-/** {1 Angles} */
 /** This type is just an alias for [float].
 
   Its purpose is to make understanding the signatures of the following
@@ -392,7 +383,7 @@ let inRange: (t, ~lower: t, ~upper: t) => bool
 */
 type radians = float
 
-/** [hypotenuse x y] returns the length of the hypotenuse of a right-angled triangle with sides of length `x` and [y], or, equivalently, the distance of the point [(x, y)] to [(0, 0)].
+/** `hypotenuse(x,y)` returns the length of the hypotenuse of a right-angled triangle with sides of length `x` and `y`, or, equivalently, the distance of the point `(x, y)` to `(0, 0)`.
 
   ## Examples
 
@@ -402,7 +393,7 @@ type radians = float
 */
 let hypotenuse: (t, t) => t
 
-/** Converts an angle in {{: https://en.wikipedia.org/wiki/Degree_(angle) } degrees} to {!Float.radians}.
+/** Converts an angle in [ degrees](https://en.wikipedia.org/wiki/Degree_(angle)) to [Float.radians](Float.mdx#radians).
 
   ## Examples
 
@@ -414,9 +405,9 @@ let hypotenuse: (t, t) => t
 */
 let degrees: t => radians
 
-/** Convert a {!Float.t} to {{: https://en.wikipedia.org/wiki/Radian } radians}.
+/** Convert a [Float.t](Float.t.mdx#) to [ radians](https://en.wikipedia.org/wiki/Radian).
 
-  *Note * This function doesn't actually do anything to its argument, but can be useful to indicate intent when inter-mixing angles of different units within the same function.
+  *Note:* This function doesn't actually do anything to its argument, but can be useful to indicate intent when inter-mixing angles of different units within the same function.
 
   ## Examples
 
@@ -426,7 +417,7 @@ let degrees: t => radians
 */
 let radians: t => radians
 
-/** Convert an angle in {{: https://en.wikipedia.org/wiki/Turn_(geometry) } turns} into {!Float.radians}.
+/** Convert an angle in [ turns](https://en.wikipedia.org/wiki/Turn_(geometry)) into [Float.radians](Float.mdx#radians).
 
   One turn is equal to 360 degrees.
 
@@ -439,8 +430,7 @@ let radians: t => radians
 */
 let turns: t => radians
 
-/** {1 Polar coordinates} */
-/** Convert {{: https://en.wikipedia.org/wiki/Polar_coordinate_system } polar coordinates } (radius, radians) to {{: https://en.wikipedia.org/wiki/Cartesian_coordinate_system } Cartesian coordinates } (x,y).
+/** Convert [ polar coordinates ](https://en.wikipedia.org/wiki/Polar_coordinate_system) `(radius, radians)` to [ Cartesian coordinates ](https://en.wikipedia.org/wiki/Cartesian_coordinate_system) `(x,y)`.
 
   ## Examples
 
@@ -450,7 +440,7 @@ let turns: t => radians
 */
 let fromPolar: ((float, radians)) => (float, float)
 
-/** Convert {{: https://en.wikipedia.org/wiki/Cartesian_coordinate_system } Cartesian coordinates } [(x, y)] to {{: https://en.wikipedia.org/wiki/Polar_coordinate_system } polar coordinates } [(radius, radians)].
+/** Convert [ Cartesian coordinates ](https://en.wikipedia.org/wiki/Cartesian_coordinate_system) `(x, y)` to [ polar coordinates ](https://en.wikipedia.org/wiki/Polar_coordinate_system) `(radius, radians)`.
 
   ## Examples
 
@@ -462,7 +452,7 @@ let fromPolar: ((float, radians)) => (float, float)
 */
 let toPolar: ((float, float)) => (float, radians)
 
-/** Figure out the cosine given an angle in {{: https://en.wikipedia.org/wiki/Radian } radians}.
+/** Figure out the cosine given an angle in [ radians](https://en.wikipedia.org/wiki/Radian).
 
   ## Examples
 
@@ -473,7 +463,7 @@ let toPolar: ((float, float)) => (float, radians)
 */
 let cos: radians => t
 
-/** Figure out the arccosine for [adjacent / hypotenuse] in {{: https://en.wikipedia.org/wiki/Radian } radians}:
+/** Figure out the arccosine for `adjacent / hypotenuse` in [ radians](https://en.wikipedia.org/wiki/Radian):
 
   ## Examples
 
@@ -483,7 +473,7 @@ let cos: radians => t
 */
 let acos: radians => t
 
-/** Figure out the sine given an angle in {{: https://en.wikipedia.org/wiki/Radian } radians}.
+/** Figure out the sine given an angle in [ radians](https://en.wikipedia.org/wiki/Radian).
 
   ## Examples
 
@@ -494,7 +484,7 @@ let acos: radians => t
 */
 let sin: radians => t
 
-/** Figure out the arcsine for [opposite / hypotenuse] in {{: https://en.wikipedia.org/wiki/Radian } radians}:
+/** Figure out the arcsine for `opposite / hypotenuse` in [ radians](https://en.wikipedia.org/wiki/Radian):
 
   ## Examples
 
@@ -516,19 +506,19 @@ let asin: radians => t
 */
 let tan: radians => t
 
-/** This helps you find the angle (in radians) to an [(x, y)] coordinate, but
+/** This helps you find the angle (in radians) to an `(x, y)` coordinate, but
   in a way that is rarely useful in programming.
 
-  *You probably want* {!atan2} instead!
+  *You probably want* [atan2](#atan2) instead!
 
-  This version takes [y / x] as its argument, so there is no way to know whether
-  the negative signs comes from the [y] or `x` value. So as we go counter-clockwise
-  around the origin from point [(1, 1)] to [(1, -1)] to [(-1,-1)] to [(-1,1)] we do
+  This version takes `y / x` as its argument, so there is no way to know whether
+  the negative signs comes from the `y` or `x` value. So as we go counter-clockwise
+  around the origin from point `(1, 1)` to `(1, -1)` to `(-1,-1)` to `(-1,1)` we do
   not get angles that go in the full circle:
 
-  Notice that everything is between [pi / 2] and [-pi/2]. That is pretty useless
+  Notice that everything is between `pi / 2` and `-pi/2`. That is pretty useless
   for figuring out angles in any sort of visualization, so again, check out
-  {!Float.atan2} instead!
+  [Float.atan2](Float.mdx#atan2) instead!
 
   ## Examples
 
@@ -541,9 +531,9 @@ let tan: radians => t
 */
 let atan: t => radians
 
-/** This helps you find the angle (in radians) to an [(x, y)] coordinate.
+/** This helps you find the angle (in radians) to an `(x, y)` coordinate.
 
-  So rather than [Float.(atan (y / x))] you can [Float.atan2 ~y ~x] and you can get a full range of angles:
+  So rather than `Float.(atan (y / x))` you can `Float.atan2(~y, ~x)` and you can get a full range of angles:
 
   ## Examples
 
@@ -556,10 +546,9 @@ let atan: t => radians
 */
 let atan2: (~y: t, ~x: t) => radians
 
-/** {1 Rounding} */
-/** The possible [direction]s availible when doing {!Float.round}.
+/** The possible `direction`s availible when doing [Float.round](Float.mdx#round).
 
-  See {!Float.round} for what each variant represents.
+  See [Float.round](Float.mdx#round) for what each variant represents.
  */
 type direction = [
   | #Zero
@@ -569,9 +558,9 @@ type direction = [
   | #Closest([#Zero | #AwayFromZero | #Up | #Down | #ToEven])
 ]
 
-/** Round a number, by default to the to the closest [int] with halves rounded [#Up] (towards positive infinity).
+/** Round a number, by default to the to the closest `int` with halves rounded `#Up` (towards positive infinity).
 
-  Other rounding strategies are available by using the optional [~direction] labelelled.
+  Other rounding strategies are available by using the optional `~direction` labelelled.
 
   ## Examples
 
@@ -584,7 +573,7 @@ type direction = [
   Float.round(-1.8) == -2.0
    ```
 
-  {3 Towards zero}
+  ### Towards zero
 
   ```rescript
   Float.round(1.2, ~direction=#Zero) == 1.0
@@ -595,7 +584,7 @@ type direction = [
   Float.round(-1.8, ~direction=#Zero) == -1.0
    ```
 
-  {3 Away from zero}
+  ### Away from zero
 
   ```rescript
   Float.round(1.2, ~direction=#AwayFromZero) == 2.0
@@ -606,9 +595,9 @@ type direction = [
   Float.round(-1.8, ~direction=#AwayFromZero) == -2.0
    ```
 
-  {3 Towards infinity}
+  ### Towards infinity
 
-  This is also known as {!Float.ceiling}.
+  This is also known as [Float.ceiling](Float.mdx#ceiling).
 
   ```rescript
   Float.round(1.2, ~direction=#Up) == 2.0
@@ -619,9 +608,9 @@ type direction = [
   Float.round(-1.8, ~direction=#Up) == -1.0
    ```
 
-  {3 Towards negative infinity}
+  ### Towards negative infinity
 
-  This is also known as {!Float.floor}.
+  This is also known as [Float.floor](Float.mdx#floor).
 
   ```rescript
   Array.map(
@@ -630,11 +619,11 @@ type direction = [
   ) == [-2.0, -2.0, -2.0, 1.0, 1.0, 1.0]
    ```
 
-  {3 To the closest integer}
+  ### To the closest integer
 
   Rounding a number `x` to the closest integer requires some tie-breaking for when the [fraction] part of `x` is exactly [0.5].
 
-  {3 Halves rounded towards zero}
+  ### Halves rounded towards zero
 
   ```rescript
   Array.map(
@@ -643,7 +632,7 @@ type direction = [
   ) == [-2.0, -1.0, -1.0, 1.0, 1.0, 2.0]
    ```
 
-  {3 Halves rounded away from zero}
+  ### Halves rounded away from zero
 
   This method is often known as *commercial rounding*.
 
@@ -654,7 +643,7 @@ type direction = [
   ) == [-2.0, -2.0, -1.0, 1.0, 2.0, 2.0]
    ```
 
-  {3 Halves rounded down}
+  ### Halves rounded down
 
   ```rescript
   Array.map(
@@ -663,13 +652,13 @@ type direction = [
   ) == [-2.0, -2.0, -1.0, 1.0, 1.0, 2.0]
    ```
 
-  {3 Halves rounded up}
+  ### Halves rounded up
 
   This is the default.
 
-  [Float.round(1.5)] is the same as [Float.round(1.5, ~direction=#Closest(#Up))]
+  `Float.round(1.5)` is the same as `Float.round(1.5, ~direction=#Closest(#Up))`
 
-  {3 Halves rounded towards the closest even number}
+  ### Halves rounded towards the closest even number
 
   ```rescript
   Float.round(-1.5, ~direction=#Closest(#ToEven)) == -2.0
@@ -678,7 +667,7 @@ type direction = [
 */
 let round: (~direction: direction=?, t) => t
 
-/** Floor function, equivalent to [Float.round(~direction=#Down)].
+/** Floor function, equivalent to `Float.round(~direction=#Down)`.
 
   ## Examples
 
@@ -693,7 +682,7 @@ let round: (~direction: direction=?, t) => t
 */
 let floor: t => t
 
-/** Ceiling function, equivalent to [Float.round(~direction=#Up)].
+/** Ceiling function, equivalent to `Float.round(~direction=#Up)`.
 
   ## Examples
 
@@ -708,7 +697,7 @@ let floor: t => t
 */
 let ceiling: t => t
 
-/** Ceiling function, equivalent to [Float.round(~direction=#Zero)].
+/** Ceiling function, equivalent to `Float.round(~direction=#Zero)`.
 
   ## Examples
 
@@ -724,12 +713,11 @@ let ceiling: t => t
 */
 let truncate: t => t
 
-/** # Convert */
-/** Converts a [float] to an {!Int} by *ignoring the decimal portion*. See {!Float.truncate} for examples.
+/** Converts a `float` to an [Int](Int.mdx#) by *ignoring the decimal portion*. See [Float.truncate](Float.mdx#truncate) for examples.
 
-  Returns `None` when trying to round a [float] which can't be represented as an [int] such as {!Float.nan} or {!Float.infinity} or numbers which are too large or small.
+  Returns `None` when trying to round a `float` which can't be represented as an `int` such as [Float.nan](Float.mdx#nan) or [Float.infinity](Float.mdx#infinity) or numbers which are too large or small.
 
-  You probably want to use some form of {!Float.round} prior to using this function.
+  You probably want to use some form of [Float.round](Float.mdx#round) prior to using this function.
 
   ## Examples
 
@@ -744,14 +732,13 @@ let truncate: t => t
 */
 let toInt: t => option<int>
 
-/** Convert a [float] to a [String](String.mdx#)
+/** Convert a `float` to a [String](String.mdx#)
   The behaviour of this function is platform specific
 
   Returns a string representation of the float in base 10.
 */
 let toString: t => string
 
-/** {1 Compare} */
 /** Test two floats for equality. */
 let equal: (t, t) => bool
 

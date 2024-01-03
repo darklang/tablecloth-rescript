@@ -11,7 +11,7 @@
   Array.initialize(6, ~f=Fun.identity) == [0, 1, 2, 3, 4, 5]
   ```
 
-  (In this particular case you probably want to use {!Array.range}.)
+  (In this particular case you probably want to use [Array.range](Array.mdx#range).)
 
   Or maybe you need to register a callback, but dont want to do anything:
 
@@ -24,10 +24,10 @@
 */
 external identity: 'a => 'a = "%identity"
 
-/** Discards the value it is given and returns [()]
+/** Discards the value it is given and returns `()`
 
   This is primarily useful when working with imperative side-effecting code
-  or to avoid [unused value] compiler warnings when you really meant it,
+  or to avoid `unused value` compiler warnings when you really meant it,
   and haven't just made a mistake.
 
   ## Examples
@@ -52,7 +52,7 @@ external ignore: _ => unit = "%ignore"
 
 /** Create a function that *always* returns the same value.
 
-  Useful with functions like {!List.map} or {!Array.initialize}.
+  Useful with functions like [List.map](List.mdx#map) or [Array.initialize](Array.mdx#initialize).
 
   ## Examples
 
@@ -68,7 +68,7 @@ let sequence: ('a, 'b) => 'b
 
 /** Reverses the argument order of a function.
 
-  For any arguments `x` and [y], [flip(f)(x, y)] is the same as [f(y, x)].
+  For any arguments `x` and `y`, `flip(f)(x, y)` is the same as `f(y, x)`.
 
   Perhaps you want to `fold` something, but the arguments of a function you
   already have access to are in the wrong order.
@@ -77,7 +77,7 @@ let flip: (('a, 'b) => 'c, 'b, 'a) => 'c
 
 /** Negate a function.
 
-  This can be useful in combination with {!List.filter} / {!Array.filter} or {!List.find} / {!Array.find}.
+  This can be useful in combination with [List.filter](List.mdx#filter) / [Array.filter](Array.mdx#filter) or [List.find](List.mdx#find) / [Array.find](Array.mdx#find).
 
   ## Examples
 
@@ -90,16 +90,16 @@ let negate: ('a => bool, 'a) => bool
 
 /** Calls function `f` with an argument `x`.
 
-  [apply(f, x)] is exactly the same as [f(x)].
+  `apply(f, x)` is exactly the same as `f(x)`.
 
-  Maybe you want to apply a function to a [switch] expression? That sort of thing.
+  Maybe you want to apply a function to a `switch` expression? That sort of thing.
 */
 let apply: ('a => 'b, 'a) => 'b
 
 /** Function composition, passing result from left to right.
 
   This is usefull in cases when you want to make multiple transformations
-  during a [map] operation.
+  during a `map` operation.
 
   ## Examples
 
@@ -115,10 +115,10 @@ let compose: ('a, 'a => 'b, 'b => 'c) => 'c
 
 /** Function composition, passing result from right to left.
 
-  Same as [!compose], but function application order is reversed.
+  Same as `!compose`, but function application order is reversed.
 
   This is usefull in cases when you want to make multiple transformations
-  during a [map] operation.
+  during a `map` operation.
   
   ## Examples
 
@@ -132,7 +132,7 @@ let compose: ('a, 'a => 'b, 'b => 'c) => 'c
 */
 let composeRight: ('a, 'b => 'c, 'a => 'b) => 'c
 
-/** Useful for performing some side affect in {!Fun.pipe}-lined code.
+/** Useful for performing some side affect in [Fun.pipe](Fun.mdx#pipe)-lined code.
 
   Most commonly used to log a value in the middle of a pipeline of function calls.
 
@@ -170,7 +170,7 @@ let forever: (unit => unit) => exn
 */
 let times: (int, ~f: unit => unit) => unit
 
-/** Takes a function `f` which takes a single argument of a tuple [('a, 'b)] and returns a function which takes two arguments that can be partially applied.
+/** Takes a function `f` which takes a single argument of a tuple `('a, 'b)` and returns a function which takes two arguments that can be partially applied.
 
   ## Examples
 
@@ -195,8 +195,8 @@ let curry: ((('a, 'b)) => 'c, 'a, 'b) => 'c
 */
 let uncurry: (('a, 'b) => 'c, ('a, 'b)) => 'c
 
-/** Like {!curry} but for a {!Tuple3}. */
+/** Like [curry](#curry) but for a [Tuple3](Tuple3.mdx#). */
 let curry3: ((('a, 'b, 'c)) => 'd, 'a, 'b, 'c) => 'd
 
-/** Like {!uncurry} but for a {!Tuple3}. */
+/** Like [uncurry](#uncurry) but for a [Tuple3](Tuple3.mdx#). */
 let uncurry3: (('a, 'b, 'c) => 'd, ('a, 'b, 'c)) => 'd

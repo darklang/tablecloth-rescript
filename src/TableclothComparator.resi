@@ -1,6 +1,6 @@
-/** Comparator provide a way for custom data structures to be used with {!Map}s and {!Set}s.
+/** Comparator provide a way for custom data structures to be used with [Map](Map.mdx#)s and [Set](Set.mdx#)s.
 
-  Say we have a module [Book] which we want to be able to create a {!Set} of
+  Say we have a module [Book] which we want to be able to create a [Set](Set.mdx#) of
 
   ```rescript
   module Book = {
@@ -13,9 +13,9 @@
   }
   ```
 
-  First we need to make our module conform to the {!S} signature.
+  First we need to make our module conform to the [S](#S) signature.
 
-  This can be done by using the {!Make} functor.
+  This can be done by using the [Make](Make.mdx#) functor.
 
   ```rescript
   module Book = {
@@ -44,7 +44,7 @@
   ```
 */
 module type T = {
-  /** T represents the input for the {!Make} functor. */
+  /** T represents the input for the [Make](Make.mdx#) functor. */
   type t
 
   let compare: (t, t) => int
@@ -52,11 +52,11 @@ module type T = {
 
 type t<'a, 'identity>
 
-/** This just is an alias for {!t}.  */
+/** This just is an alias for [t](#t).  */
 type comparator<'a, 'identity> = t<'a, 'identity>
 
 module type S = {
-  /** The output type of {!Make}.  */
+  /** The output type of [Make](Make.mdx#).  */
   type t
 
   type identity
@@ -65,11 +65,11 @@ module type S = {
 }
 
 @ocaml.doc(
-  " A type alias that is useful typing functions which accept first class modules like {!Map.empty} or {!Set.fromArray}. "
+  " A type alias that is useful typing functions which accept first class modules like [Map.empty](Map.mdx#empty) or [Set.fromArray](Set.mdx#fromArray). "
 )
 type s<'a, 'identity> = module(S with type identity = 'identity and type t = 'a)
 
-/** Create a new comparator by providing a module which satisifies {!T}.
+/** Create a new comparator by providing a module which satisifies [T](#T).
 
   ## Examples
 

@@ -3,7 +3,7 @@
 */
 module type Sum = {
   /** Modules which conform to this signature can be used with functions like
-      {!Array.sum} or {!List.sum}.
+      [Array.sum](Array.mdx#sum) or [List.sum](List.mdx#sum).
   */
   type t
 

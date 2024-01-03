@@ -1,7 +1,7 @@
-/** A {!Result} is used to represent a computation which may fail.
+/** A [Result](Result.mdx#) is used to represent a computation which may fail.
 
-  A [Result] is a variant, which has a constructor for successful results
-  [Ok('ok)], and one for unsuccessful results ([Error('error)]).
+  A [Result](Result.mdx#) is a variant, which has a constructor for successful results
+  `Ok('ok)`, and one for unsuccessful results `[Error('error)]`.
 
   ```rescript
   type t<'ok, 'error> =
@@ -9,7 +9,7 @@
   | Error('error)
   ```
 
-  Here is how you would annotate a [Result] variable whose [Ok]
+  Here is how you would annotate a [Result](Result.mdx#) variable whose `Ok`
   variant is an integer and whose `Error` variant is a string:
 
   ```rescript
@@ -17,18 +17,17 @@
   let error: Result.t<int, string> = Error("This computation failed!")
   ```
 
-  *Note* The ['error] case can be of *any* type and while [string] is very common you could also use:
-  - [Array.t(string)] to allow errors to be accumulated
-  - [exn], in which case the result type just makes exceptions explicit in the return type
-  - A variant or polymorphic variant, with one case per possible error. This is means each error can be dealt with explicitly. See {{: https://dev.to/kevanstannard/exploring-rescript-exception-handling-57o3 } this excellent article} for more information on this approach.
+  *Note:* The `'error` case can be of *any* type and while `string` is very common you could also use:
+  - `Array.t(string)` to allow errors to be accumulated
+  - `exn`, in which case the result type just makes exceptions explicit in the return type
+  - A variant or polymorphic variant, with one case per possible error. This is means each error can be dealt with explicitly. See [ this excellent article](https://dev.to/kevanstannard/exploring-rescript-exception-handling-57o3) for more information on this approach.
 
   If the function you are writing can only fail in a single obvious way, maybe you want an [Option](Option.mdx#) instead.
 */
 type t<'ok, 'error> = result<'ok, 'error>
 
-/** # Create */
-/** A function alternative to the [Ok] constructor which can be used in places where
-  the constructor isn't permitted or functions like {!List.map}.
+/** A function alternative to the `Ok` constructor which can be used in places where
+  the constructor isn't permitted or functions like [List.map](List.mdx#map).
 
   ## Examples
 
@@ -40,17 +39,17 @@ type t<'ok, 'error> = result<'ok, 'error>
 let ok: 'ok => t<'ok, 'error>
 
 /** A function alternative to the `Error` constructor which can be used in places where
-  the constructor isn't permitted such as at the of a {!Fun.pipe} or functions like {!List.map}.
+  the constructor isn't permitted such as at the of a [Fun.pipe](Fun.mdx#pipe) or functions like [List.map](List.mdx#map).
 
   *Note*
 
-  In Rescript you *can* use constructors with the fast pipe ([->]).
+  In Rescript you *can* use constructors with the fast pipe (`->`).
 
   ```rescript
   5->Ok == Ok(5)
   ```
 
-  See the {{: https://reasonml.github.io/docs/en/pipe-first#pipe-into-variants} Rescript docs } for more.
+  See the [Rescript docs](https://reasonml.github.io/docs/en/pipe-first#pipe-into-variants) for more.
 
   ## Examples
 
@@ -61,7 +60,7 @@ let ok: 'ok => t<'ok, 'error>
 */
 let error: 'error => t<'ok, 'error>
 
-/** Run the provided function and wrap the returned value in a {!Result}, catching any exceptions raised.
+/** Run the provided function and wrap the returned value in a [Result](Result.mdx#), catching any exceptions raised.
 
   ## Examples
 
@@ -76,7 +75,7 @@ let error: 'error => t<'ok, 'error>
 */
 let attempt: (unit => 'ok) => t<'ok, exn>
 
-/** Convert an [Option](Option.mdx#) to a {!Result} where a [Some(value)] becomes [Ok(value)] and a `None` becomes [Error(error)].
+/** Convert an [Option](Option.mdx#) to a [Result](Result.mdx#) where a `Some(value)` becomes `Ok(value)` and a `None` becomes `Error(error)`.
 
   ## Examples
 
@@ -88,15 +87,15 @@ let attempt: (unit => 'ok) => t<'ok, exn>
 */
 let fromOption: (option<'ok>, ~error: 'error) => t<'ok, 'error>
 
-/** Check if a {!Result} is an [Ok].
+/** Check if a [Result](Result.mdx#) is an `Ok`.
 
   Useful when you want to perform some side effect based on the presence of
-  an [Ok] like logging.
+  an `Ok` like logging.
 
-  *Note* if you need access to the contained value rather than doing
-  [Result.isOk] followed by {!Result.unwrapUnsafe} its safer and just as
-  convenient to use pattern matching directly or use one of {!Result.andThen}
-  or {!Result.map}
+  *Note:* if you need access to the contained value rather than doing
+  `Result.isOk` followed by [Result.unwrapUnsafe](Result.mdx#unwrapUnsafe) its safer and just as
+  convenient to use pattern matching directly or use one of [Result.andThen](Result.mdx#andThen)
+  or [Result.map](Result.mdx#map)
 
   ## Examples
 
@@ -107,15 +106,15 @@ let fromOption: (option<'ok>, ~error: 'error) => t<'ok, 'error>
 */
 let isOk: t<_, _> => bool
 
-/** Check if a {!Result} is an `Error`.
+/** Check if a [Result](Result.mdx#) is an `Error`.
 
   Useful when you want to perform some side effect based on the presence of
   an `Error` like logging.
 
-  *Note* if you need access to the contained value rather than doing
-  {!Result.isOk} followed by {!Result.unwrapUnsafe} its safer and just as
-  convenient to use pattern matching directly or use one of {!Result.andThen}
-  or {!Result.map}
+  *Note:* if you need access to the contained value rather than doing
+  [Result.isOk](Result.mdx#isOk) followed by [Result.unwrapUnsafe](Result.mdx#unwrapUnsafe) its safer and just as
+  convenient to use pattern matching directly or use one of [Result.andThen](Result.mdx#andThen)
+  or [Result.map](Result.mdx#map)
 
   ## Examples
 
@@ -126,10 +125,10 @@ let isOk: t<_, _> => bool
 */
 let isError: t<_, _> => bool
 
-/** Returns the first argument if it {!isError}, otherwise return the second argument.
+/** Returns the first argument if it [isError](#isError), otherwise return the second argument.
 
-  Unlike the {!Bool.and_} operator, the [and_] function does not short-circuit.
-  When you call [and_], both arguments are evaluated before being passed to the function.
+  Unlike the [Bool.and_](Bool.mdx#and_) operator, the `and_` function does not short-circuit.
+  When you call `and_`, both arguments are evaluated before being passed to the function.
 
   ## Examples
 
@@ -148,10 +147,10 @@ let isError: t<_, _> => bool
 */
 let and_: (t<'ok, 'error>, t<'ok, 'error>) => t<'ok, 'error>
 
-/** Return the first argument if it {!isOk}, otherwise return the second.
+/** Return the first argument if it [isOk](#isOk), otherwise return the second.
 
-  Unlike the built in [||] operator, the [or_] function does not short-circuit.
-  When you call [or_], both arguments are evaluated before being passed to the function.
+  Unlike the built in `||` operator, the `or_` function does not short-circuit.
+  When you call `or_`, both arguments are evaluated before being passed to the function.
 
   ## Examples
 
@@ -166,29 +165,37 @@ let and_: (t<'ok, 'error>, t<'ok, 'error>) => t<'ok, 'error>
 */
 let or_: (t<'ok, 'error>, t<'ok, 'error>) => t<'ok, 'error>
 
-/** Return the second argument if it {!isOk}, otherwise return the first.
+/** Return the second argument if it [isOk](#isOk), otherwise return the first.
 
-  Like {!or_} but in reverse. Useful when using the [|>] operator
+  Like [or_](#or_) but in reverse. Useful when using the `|>` operator
 
   ## Examples
 
-  ```rescriptResult.orElse (Ok "Boar") (Ok "Gecko") = (Ok "Gecko")```
+  ```rescript
+  Result.orElse (Ok "Boar") (Ok "Gecko") = (Ok "Gecko")
+  ```
 
-  ```rescriptResult.orElse (Error (`UnexpectedInvertabrate "Periwinkle")) (Ok "Gecko") = (Ok "Gecko")```
+  ```rescript
+  Result.orElse (Error (`UnexpectedInvertabrate "Periwinkle")) (Ok "Gecko") = (Ok "Gecko")
+  ```
 
-  ```rescriptResult.orElse (Ok "Boar") (Error (`UnexpectedInvertabrate "Periwinkle")) = (Ok "Boar") ```
+  ```rescript
+  Result.orElse (Ok "Boar") (Error (`UnexpectedInvertabrate "Periwinkle")) = (Ok "Boar") 
+  ```
 
-  ```rescriptResult.orElse (Error (`UnexpectedInvertabrate "Periwinkle")) (Error (`UnexpectedBird "Robin")) = (Error (`UnexpectedInvertabrate "Periwinkle"))```
+  ```rescript
+  Result.orElse (Error (`UnexpectedInvertabrate "Periwinkle")) (Error (`UnexpectedBird "Robin")) = (Error (`UnexpectedInvertabrate "Periwinkle"))
+  ```
 */
 let orElse: (t<'ok, 'error>, t<'ok, 'error>) => t<'ok, 'error>
 
 let or_else: (t<'ok, 'error>, t<'ok, 'error>) => t<'ok, 'error>
 
-/** Combine two results, if both are [Ok] returns an [Ok] containing a {!Tuple2} of the values.
+/** Combine two results, if both are `Ok` returns an `Ok` containing a [Tuple2](Tuple2.mdx#) of the values.
 
   If either is an `Error`, returns the first `Error`.
 
-  The same as writing [Result.map2(~f=Tuple2.make)].
+  The same as writing `Result.map2(~f=Tuple2.make)`.
 
   ## Examples
 
@@ -225,7 +232,7 @@ let both: (t<'a, 'error>, t<'b, 'error>) => t<('a, 'b), 'error>
 */
 let flatten: t<t<'ok, 'error>, 'error> => t<'ok, 'error>
 
-/** Unwrap a Result using the [~default] value in case of an `Error`.
+/** Unwrap a Result using the `~default` value in case of an `Error`.
 
   ## Examples
 
@@ -236,13 +243,17 @@ let flatten: t<t<'ok, 'error>, 'error> => t<'ok, 'error>
 */
 let unwrap: (t<'ok, 'error>, ~default: 'ok) => 'ok
 
-/** Unwrap a Result using the [Lazy.force default] value in case of an `Error`
+/** Unwrap a Result using the `Lazy.force(default)` value in case of an `Error`
 
   ## Examples
 
-  ```rescriptResult.unwrapLazy ~default:(lazy 0) (Ok 12) = 12```
+  ```rescript
+  Result.unwrapLazy ~default:(lazy 0) (Ok 12) = 12
+  ```
 
-  ```rescriptResult.unwrapLazy ~default:(lazy 0) ((Error (`UnexpectedBird "Ostrich"))) = 0```
+  ```rescript
+  Result.unwrapLazy ~default:(lazy 0) ((Error (`UnexpectedBird "Ostrich"))) = 0
+  ```
 */
 let unwrapLazy: (t<'ok, 'error>, ~default: Lazy.t<'ok>) => 'ok
 
@@ -250,7 +261,7 @@ let unwrapLazy: (t<'ok, 'error>, ~default: Lazy.t<'ok>) => 'ok
 
  ### Exceptions
 
-  Raises an [Not_found] exception.
+  Raises an `Not_found` exception.
 
   ## Examples
 
@@ -261,7 +272,7 @@ let unwrapLazy: (t<'ok, 'error>, ~default: Lazy.t<'ok>) => 'ok
 */
 let unwrapUnsafe: t<'ok, _> => 'ok
 
-/** Like {!Result.unwrap} but unwraps an `Error` value instead.
+/** Like [Result.unwrap](Result.mdx#unwrap) but unwraps an `Error` value instead.
 
   ## Examples
 
@@ -294,7 +305,7 @@ let unwrapError: (t<'ok, 'error>, ~default: 'error) => 'error
 */
 let map2: (t<'a, 'error>, t<'b, 'error>, ~f: ('a, 'b) => 'c) => t<'c, 'error>
 
-/** If all of the elements of a list are [Ok], returns an [Ok] of the the list of unwrapped values.
+/** If all of the elements of a list are `Ok`, returns an `Ok` of the the list of unwrapped values.
 
   If *any* of the elements are an `Error`, the first one encountered is returned.
 
@@ -308,13 +319,13 @@ let map2: (t<'a, 'error>, t<'b, 'error>, ~f: ('a, 'b) => 'c) => t<'c, 'error>
 let values: list<t<'ok, 'error>> => t<list<'ok>, 'error>
 
 /**
-  [Result.combine(results)] takes a list of [Result] values. If all
-  the elements in [results] are of the form [Ok x], then [Result.combine]
-  creates a list [xs] of all the values extracted from their [Ok]s, and returns
-  [Ok xs]
+  `Result.combine(results)` takes a list of [Result](Result.mdx#) values. If all
+  the elements in `results` are of the form `Ok x`, then [Result.combine]
+  creates a list `xs` of all the values extracted from their `Ok`s, and returns
+  `Ok(xs)`
 
-  If any of the elements in [results] are of the form [Error err],
-  the first of them is returned as the result of [Result.combine].
+  If any of the elements in `results` are of the form `Error(err)`,
+  the first of them is returned as the result of `Result.combine`.
 
   ## Examples
 
@@ -325,7 +336,7 @@ let values: list<t<'ok, 'error>> => t<list<'ok>, 'error>
   */
 let combine: list<result<'ok, 'error>> => result<list<'ok>, 'error>
 
-/** Transforms the ['ok] in a result using `f`. Leaves the ['error] untouched.
+/** Transforms the `'ok` in a result using `f`. Leaves the `'error` untouched.
 
   ## Examples
 
@@ -336,7 +347,7 @@ let combine: list<result<'ok, 'error>> => result<list<'ok>, 'error>
 */
 let map: (t<'a, 'error>, ~f: 'a => 'b) => t<'b, 'error>
 
-/** Transforms the value in an `Error` using `f`. Leaves an [Ok] untouched.
+/** Transforms the value in an `Error` using `f`. Leaves an `Ok` untouched.
 
   ## Examples
 
@@ -378,7 +389,7 @@ let mapError: (t<'ok, 'a>, ~f: 'a => 'b) => t<'ok, 'b>
 */
 let andThen: (t<'a, 'error>, ~f: 'a => t<'b, 'error>) => t<'b, 'error>
 
-/** Run a function against an [Ok(value)], ignores `Error`s.
+/** Run a function against an `Ok(value)`, ignores `Error`s.
 
   ## Examples
 
@@ -389,12 +400,11 @@ let andThen: (t<'a, 'error>, ~f: 'a => t<'b, 'error>) => t<'b, 'error>
  */
 let tap: (t<'ok, _>, ~f: 'ok => unit) => unit
 
-/** # Convert */
-/** Convert a {!Result} to an [Option](Option.mdx#).
+/** Convert a [Result](Result.mdx#) to an [Option](Option.mdx#).
 
-  An [Ok x] becomes [Some x]
+  An `Ok(x)` becomes `Some(x)`
 
-  An [Error _] becomes `None`
+  An `Error(_)` becomes `None`
 
   ## Examples
 
@@ -405,7 +415,6 @@ let tap: (t<'ok, _>, ~f: 'ok => unit) => unit
 */
 let toOption: t<'ok, _> => option<'ok>
 
-/** {1 Compare} */
 /** Test two results for equality using the provided functions.
 
   ## Examples
@@ -421,9 +430,9 @@ let toOption: t<'ok, _> => option<'ok>
 let equal: (t<'ok, 'error>, t<'ok, 'error>, ('ok, 'ok) => bool, ('error, 'error) => bool) => bool
 
 /** Compare results for using the provided functions.
-  `f` will be used to compare [Ok]'s and [g] will be used on `Error`s.
+  `f` will be used to compare `Ok`'s and `g` will be used on `Error`s.
 
-  In the case when one of the results is an `Error` and one is [Ok], `Error`s  are considered 'less' then [Ok]s.
+  In the case when one of the results is an `Error` and one is `Ok`, `Error`s  are considered 'less' then `Ok`s.
 
   ## Examples
 

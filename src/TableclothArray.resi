@@ -3,13 +3,10 @@
   Has constant time (O(1)) [get](#get), [set](#set) and [length](#length) operations.
 
   Arrays have a fixed length, if you want to be able to add an arbitrary number of elements maybe you want a [List](List.mdx#)}.
+  You can create an `array` in Rescript with the `[1, 2, 3]` syntax.
 */
 type t<'a> = array<'a>
 
-/** # Create
-
-  You can create an `array` in Rescript with the `[1, 2, 3]` syntax.
-*/
 /** Create an array with only one element.
 
   ## Examples
@@ -92,7 +89,6 @@ let fromList: list<'a> => t<'a>
 */
 let clone: t<'a> => t<'a>
 
-/** # Basic operations */
 /** Get the element at the specified index.
 
   The first element has index number 0.
@@ -124,7 +120,7 @@ let get: (t<'a>, int) => 'a
 
 /** Returns, as an [Option](Option.mdx#), the element at index number `n` of array `a`.
 
-  Returns `None` if `n` is outside the range `0` to [(Array.length(a) - 1)].
+  Returns `None` if `n` is outside the range `0` to `Array.length(a) - 1`.
 
   ## Examples
 
@@ -251,7 +247,6 @@ let reverse: t<'a> => unit
 */
 let sort: (t<'a>, ~compare: ('a, 'a) => int) => unit
 
-/** # Query */
 /** Check if an array is empty.
 
   ## Examples
@@ -336,7 +331,7 @@ let find: (t<'a>, ~f: 'a => bool) => option<'a>
 */
 let findIndex: (t<'a>, ~f: (int, 'a) => bool) => option<(int, 'a)>
 
-/** Test if an array contains the specified element using the provided [equal] to test for equality.
+/** Test if an array contains the specified element using the provided `equal` to test for equality.
 
   ## Examples
 
@@ -408,7 +403,6 @@ let extent: (t<'a>, ~compare: ('a, 'a) => int) => option<('a, 'a)>
 */
 let sum: (t<'a>, module(TableclothContainer.Sum with type t = 'a)) => 'a
 
-/** # Transform */
 /** Create a new array which is the result of applying a function `f` to every element.
 
   ## Examples
@@ -560,7 +554,7 @@ let flatten: t<t<'a>> => t<'a>
 
   If one array is longer, the extra elements are dropped.
 
-  The same as [Array.map2(~f=Tuple2.make)]
+  The same as `Array.map2(~f=Tuple2.make)`
 
   ## Examples
 
@@ -605,7 +599,6 @@ let map2: (t<'a>, t<'b>, ~f: ('a, 'b) => 'c) => t<'c>
 */
 let map3: (t<'a>, t<'b>, t<'c>, ~f: ('a, 'b, 'c) => 'd) => t<'d>
 
-/** # Deconstruct */
 /** Split an array into a [Tuple2](Tuple2.mdx#) of arrays. Values which `f` returns true for will end up in [Tuple2.first](Tuple2.mdx#first).
 
   ## Examples
@@ -664,7 +657,6 @@ let splitWhen: (t<'a>, ~f: 'a => bool) => (t<'a>, t<'a>)
 */
 let unzip: t<('a, 'b)> => (t<'a>, t<'b>)
 
-/** # Iterate */
 /** Iterates over the elements of invokes `f` for each element.
 
   ## Examples
@@ -749,7 +741,6 @@ let chunksOf: (t<'a>, ~size: int) => t<t<'a>>
 */
 let sliding: (~step: int=?, t<'a>, ~size: int) => t<t<'a>>
 
-/** # Convert */
 /** Converts an array of strings into a [String](String.mdx#), placing `sep` between each string in the result.
 
   ## Examples
@@ -803,7 +794,15 @@ let toList: t<'a> => list<'a>
 */
 let toIndexedList: t<'a> => list<(int, 'a)>
 
-/** Test two arrays for equality using the provided function to test pairs of elements. */
+/** Test two arrays for equality using the provided function to test pairs of elements. 
+
+  ## Examples
+
+  ```rescript
+  Array.equal(["cat", "dog"], ["cat", "dog"], String.equal) === true
+  Array.equal(["cat", "dog"], ["parrot", "dog"], String.equal) === false
+  ```
+*/
 let equal: (t<'a>, t<'a>, ('a, 'a) => bool) => bool
 
 /** Compare two arrays using the provided `f` function to compare pairs of elements.

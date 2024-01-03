@@ -20,8 +20,7 @@
 */
 type t = bool
 
-/** # Create */
-/** Convert an {!Int} into a {!Bool}.
+/** Convert an [Int](Int.mdx#) into a [Bool](Bool.mdx#).
 
   ## Examples
 
@@ -34,7 +33,7 @@ type t = bool
 */
 let fromInt: int => option<bool>
 
-/** Convert a [String](String.mdx#) into a {!Bool}.
+/** Convert a [String](String.mdx#) into a [Bool](Bool.mdx#).
 
   ## Examples
 
@@ -50,7 +49,6 @@ let fromInt: int => option<bool>
 */
 let fromString: string => option<bool>
 
-/** # Basic operations */
 /** The exclusive or operator.
 
   Returns `true` if *exactly one* of its operands is `true`.
@@ -66,7 +64,7 @@ let fromString: string => option<bool>
 */
 let xor: (bool, bool) => bool
 
-/** Negate a [bool].
+/** Negate a `bool`.
 
   ## Examples
 
@@ -77,7 +75,7 @@ let xor: (bool, bool) => bool
 */
 let not: t => bool
 
-/** The logical conjunction [AND] operator.
+/** The logical conjunction `AND` operator.
 
   Returns `true` if *both* of its operands are `true`.
   If the 'left' operand evaluates to `false`, the 'right' operand is not evaluated.
@@ -93,8 +91,7 @@ let not: t => bool
 */
 let and_: (bool, bool) => bool
 
-/** # Convert */
-/** Convert a [bool] to a [String](String.mdx#)
+/** Convert a `bool` to a [String](String.mdx#)
 
   ## Examples
 
@@ -105,7 +102,7 @@ let and_: (bool, bool) => bool
 */
 let toString: bool => string
 
-/** Convert a [bool] to an {!Int}.
+/** Convert a `bool` to an [Int](Int.mdx#).
 
   ## Examples
 
@@ -116,8 +113,7 @@ let toString: bool => string
 */
 let toInt: bool => int
 
-/** {1 Compare} */
-/** Test for the equality of two [bool] values.
+/** Test for the equality of two `bool` values.
 
   ## Examples
 
@@ -129,7 +125,7 @@ let toInt: bool => int
 */
 let equal: (bool, bool) => bool
 
-/** Compare two [bool] values.
+/** Compare two `bool` values.
 
   ## Examples
 

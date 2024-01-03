@@ -10,23 +10,15 @@
   *not Unicode*. 
   
   Note that in Rescript source code you can include only the characters from 0-127 range. 
-  Full list of available characters is available {{: https://www.w3schools.com/charsets/ref_html_ascii.asp } here}.
+  Full list of available characters is available [here](https://www.w3schools.com/charsets/ref_html_ascii.asp).
 
   Characters from 128-255 range can still be handled, but only as codes.
 */
 type t = char
 
-/** # Create
+/** Convert an ASCII [code point](https://en.wikipedia.org/wiki/Code_point) to a character.
 
-  You can also create a {!Char} using single quotes:
-
-  ```rescript
-  let char = 'c'
-  ```
-*/
-/** Convert an ASCII {{: https://en.wikipedia.org/wiki/Code_point } code point } to a character.
-
-  The full range of extended ASCII is from `0` to [255].
+  The full range of extended ASCII is from `0` to `255`.
   For numbers outside that range, you get `None`.
 
   ## Examples
@@ -42,7 +34,7 @@ let fromCode: int => option<char>
 
 /** Converts a string to character. 
 
-  Returns `None` when the [string] isn't of length one.
+  Returns `None` when the `string` isn't of length one.
 
   ## Examples
 
@@ -131,9 +123,9 @@ let isDigit: char => bool
 */
 let isAlphanumeric: char => bool
 
-/** Detect if a character is a {{: https://en.wikipedia.org/wiki/ASCII#Printable_characters } printable } character
+/** Detect if a character is a [printable](https://en.wikipedia.org/wiki/ASCII#Printable_characters) character
 
-  A Printable character has a {!Char.toCode} in the range 32 to 127, inclusive ([' '] to ['~']).
+  A Printable character has a [Char.toCode](Char.mdx#toCode) in the range 32 to 127, inclusive (`' '` to `'~'`).
 
   ## Examples
 
@@ -148,12 +140,12 @@ let isAlphanumeric: char => bool
 let isPrintable: char => bool
 
 /** Detect one of the following characters:
-  - ['\t'] (tab)
-  - ['\n'] (newline)
-  - ['\011'] (vertical tab)
-  - ['\012'] (form feed)
-  - ['\r'] (carriage return)
-  - [' '] (space)
+  - `'\t'` (tab)
+  - `'\n'` (newline)
+  - `'\011'` (vertical tab)
+  - `'\012'` (form feed)
+  - `'\r'` (carriage return)
+  - `' '` (space)
 
   ## Examples
 
@@ -190,7 +182,7 @@ let toLowercase: char => char
 */
 let toUppercase: char => char
 
-/** Convert [char] to the corresponding ASCII {{: https://en.wikipedia.org/wiki/Code_point } code point}.
+/** Convert `char` to the corresponding ASCII [code point](https://en.wikipedia.org/wiki/Code_point).
 
   ## Examples
 
@@ -201,7 +193,7 @@ let toUppercase: char => char
 */
 let toCode: char => int
 
-/** Convert a character into a [string].
+/** Convert a character into a `string`.
 
   ## Examples
 
@@ -213,28 +205,28 @@ let toCode: char => int
 */
 let toString: char => string
 
-/** Converts a digit character to its corresponding {!Int}.
+/** Converts a digit character to its corresponding [Int](Int.mdx#).
 
   Returns `None` when the character isn't a digit.
 
   ## Examples
 
   ```rescript
-  Char.toDigit("7") == Some(7)
-  Char.toDigit("0") == Some(0)
-  Char.toDigit("A") == None
-  Char.toDigit("") == None
+  Char.toDigit('7') == Some(7)
+  Char.toDigit('0') == Some(0)
+  Char.toDigit('A') == None
+  Char.toDigit('') == None
   ```
 */
 let toDigit: char => option<int>
 
-/** Test two {!Char}s for equality */
+/** Test two [Char](Char.mdx#)s for equality */
 let equal: (t, t) => bool
 
-/** Compare two {!Char}s */
+/** Compare two [Char](Char.mdx#)s */
 let compare: (t, t) => int
 
-/** The unique identity for {!Comparator} */
+/** The unique identity for [Comparator](Comparator.mdx#) */
 type identity
 
 let comparator: TableclothComparator.t<t, identity>

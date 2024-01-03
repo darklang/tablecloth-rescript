@@ -13,7 +13,7 @@ module Int = TableclothInt
 /** Functions for working with floating point numbers. */
 module Float = TableclothFloat
 
-/** Interfaces for use with container types like {!Array} or {!List} */
+/** Interfaces for use with container types like [Array](Array.mdx#) or [List](List.mdx#) */
 module Container = TableclothContainer
 
 /** A fixed lenfth collection of values */

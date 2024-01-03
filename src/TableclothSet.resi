@@ -1,10 +1,14 @@
-/** A {!Set} represents a collection of unique values.
+/** A [Set](Set.mdx#) represents a collection of unique values.
 
-  [Set] is an immutable data structure which means operations like {!Set.add} and {!Set.remove} do not modify the data structure, but return a new set with the desired changes.
+  `Set` is an immutable data structure which means operations like [Set.add](Set.mdx#add) and [Set.remove](Set.mdx#remove) do not modify the data structure, but return a new set with the desired changes.
 
-  Since sets of [int]s and [string]s are so common the specialised {!Set.Int} and {!Set.String} modules are available which offer a convenient way to construct new sets.
+  Since sets of `int`s and `string`s are so common the specialised [Set.Int](Set.mdx#Int) and [Set.String](Set.mdx#String) modules are available which offer a convenient way to construct new sets.
 
-  Custom data types can be used with sets as long as the module satisfies the {!Comparator.S} interface.
+  You can create a Set by providing a module conform to the [Comparator.S](Comparator.mdx#S) signature by using [empty](#empty), [singleton](#singleton), [fromList](#fromList) or [fromArray](#fromArray).
+
+  Specialised versions of the [empty](#empty), [singleton](#singleton), [fromList](#fromList) and [fromArray](#fromArray) functions available in the [Set.Int](Set.mdx#Int) and [Set.String](Set.mdx#String) sub-modules.
+
+  Custom data types can be used with sets as long as the module satisfies the [Comparator.S](Comparator.mdx#S) interface.
 
   ```rescript
   module Point = {
@@ -19,19 +23,13 @@
   let points = Set.fromArray(module(Point), [(0, 0), (3, 4), (6, 7)])
   ```
 
-  See the {!Comparator} module for a more details.
+  See the [Comparator](Comparator.mdx#) module for a more details.
 */
 type t<'a, 'id> = Belt.Set.t<'a, 'id>
 
-/** # Create  
-  
-  You can create a Set by providing a module conform to the {!Comparator.S} signature by using {!empty}, {!singleton}, {!fromList} or {!fromArray}.
-
-  Specialised versions of the {!empty}, {!singleton}, {!fromList} and {!fromArray} functions available in the {!Set.Int} and {!Set.String} sub-modules.
-*/
 /** A set with nothing in it. 
 
-  Often used as an initial value for functions like {!Array.fold}
+  Often used as an initial value for functions like [Array.fold](Array.mdx#fold)
 
   ## Examples
 
@@ -46,7 +44,7 @@ type t<'a, 'id> = Belt.Set.t<'a, 'id>
 */
 let empty: TableclothComparator.s<'a, 'identity> => t<'a, 'identity>
 
-/** Create a set from a single {!Int}.
+/** Create a set from a single [Int](#Int).
 
   ## Examples
 
@@ -56,7 +54,7 @@ let empty: TableclothComparator.s<'a, 'identity> => t<'a, 'identity>
 */
 let singleton: ('a, TableclothComparator.s<'a, 'identity>) => t<'a, 'identity>
 
-/** Create a set from an {!Array}.
+/** Create a set from an [Array](#Array).
 
   ## Examples
 
@@ -77,7 +75,6 @@ let fromArray: (array<'a>, TableclothComparator.s<'a, 'identity>) => t<'a, 'iden
 */
 let fromList: (list<'a>, TableclothComparator.s<'a, 'identity>) => t<'a, 'identity>
 
-/** # Basic operations */
 /** Insert a value into a set.
 
   ## Examples
@@ -136,7 +133,6 @@ let length: t<_, _> => int
 */
 let find: (t<'value, _>, ~f: 'value => bool) => option<'value>
 
-/** # Query */
 /** Check if a set is empty.
 
   ## Examples
@@ -172,7 +168,6 @@ let any: (t<'value, _>, ~f: 'value => bool) => bool
 */
 let all: (t<'value, _>, ~f: 'value => bool) => bool
 
-/** {1 Combine} */
 /** Returns a new set with the values from the first set which are not in the second set.
 
   ## Examples
@@ -217,7 +212,6 @@ let intersection: (t<'a, 'id>, t<'a, 'id>) => t<'a, 'id>
 */
 let union: (t<'a, 'id>, t<'a, 'id>) => t<'a, 'id>
 
-/** # Transform */
 /** Keep elements that `f` returns `true` for.
 
   ## Examples
@@ -245,7 +239,7 @@ let partition: (t<'a, 'id>, ~f: 'a => bool) => (t<'a, 'id>, t<'a, 'id>)
 /** Transform a set into a value which is result of running each element in the set through `f`,
   where each successive invocation is supplied the return value of the previous.
 
-  See {!Array.fold} for a more in-depth explanation.
+  See [Array.fold](Array.mdx#fold) for a more in-depth explanation.
 
   ## Examples
 
@@ -258,16 +252,13 @@ let fold: (t<'a, _>, ~initial: 'b, ~f: ('b, 'a) => 'b) => 'b
 /** Runs a function `f` against each element of the set. */
 let forEach: (t<'a, _>, ~f: 'a => unit) => unit
 
-/** # Convert */
-/** Converts a set into an {!Array} */
+/** Converts a set into an [Array](#Array) */
 let toArray: t<'a, _> => array<'a>
 
 /** Converts a set into a [List](List.mdx#). */
 let toList: t<'a, _> => list<'a>
 
-@ocaml.doc(
-  " Construct sets which can hold any data type using the polymorphic `compare` function. "
-)
+/** Construct sets which can hold any data type using the polymorphic `compare` function. */
 module Poly: {
   type identity
 
@@ -289,7 +280,7 @@ module Poly: {
   */
   let singleton: 'a => t<'a>
 
-  /** Create a set from an {!Array}
+  /** Create a set from an [Array](#Array)
 
   ## Examples
 
@@ -312,7 +303,7 @@ module Poly: {
   let fromList: list<'a> => t<'a>
 }
 
-/** Construct sets of {!Int}s */
+/** Construct sets of [Int](#Int)s */
 module Int: {
   type identity
 
@@ -321,7 +312,7 @@ module Int: {
   /** A set with nothing in it. */
   let empty: t
 
-  /** Create a set from a single {!Int}
+  /** Create a set from a single [Int](#Int)
 
   ## Examples
 
@@ -331,7 +322,7 @@ module Int: {
   */
   let singleton: int => t
 
-  /** Create a set from an {!Array}
+  /** Create a set from an [Array](Array.mdx#)
 
   ## Examples
 
@@ -371,7 +362,7 @@ module String: {
   */
   let singleton: string => t
 
-  /** Create a set from an {!Array}.
+  /** Create a set from an [Array](Array.mdx#).
 
   ## Examples
 
